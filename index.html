@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geolocalización</title>
+    <title>Geolocalización y Fotografía</title>
 </head>
 <body>
-    <h1>Coordenadas de Ubicación</h1>
+    <h1>Coordenadas de Ubicación y Fotografía</h1>
     <p>Longitud: <span id="longitude"></span></p>
     <p>Latitud: <span id="latitude"></span></p>
     <button onclick="getLocation()">Obtener Ubicación</button>
+
+    <hr>
+
+    <h2>Toma una Fotografía</h2>
+    <img id="photo" src="" alt="Fotografía" style="max-width: 100%;"><br>
+    <input type="file" accept="image/*" capture="camera" onchange="previewPhoto(event)">
+    <button onclick="capturePhoto()">Tomar Fotografía</button>
 
     <script src="script.js"></script>
 </body>
