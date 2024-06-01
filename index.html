@@ -33,6 +33,13 @@
 <h1>Tomar Fotografías o Cargar desde Galería</h1>
 
 <div id="photos-container">
+    <div class="location-section">
+        <h2>Obtener Coordenadas</h2>
+        <p id="latitude">Latitud:</p>
+        <p id="longitude">Longitud:</p>
+        <button id="getLocation">Obtener Coordenadas</button>
+    </div>
+
     <div class="photo-section">
         <h2>Foto 1</h2>
         <input type="file" accept="image/*" id="photo1-input" class="take-photo">
@@ -40,13 +47,6 @@
     </div>
     <!-- Repeat the above structure for the remaining photos -->
     <!-- Change the IDs and alt attributes accordingly -->
-
-    <div class="location-section">
-        <h2>Obtener Coordenadas</h2>
-        <p id="latitude">Latitud:</p>
-        <p id="longitude">Longitud:</p>
-        <button id="getLocation">Obtener Coordenadas</button>
-    </div>
 </div>
 
 <script>
