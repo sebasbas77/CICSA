@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obtener Georeferencia GPS</title>
+    <title>Camera App</title>
 </head>
-<body>
-    <h1>Obtener Georeferencia GPS</h1>
-    <p>Latitud: <span id="latitud"></span></p>
-    <p>Longitud: <span id="longitud"></span></p>
-    <p>Nombre del sector: <span id="sector"></span></p>
-    <p>Ciudad: <span id="ciudad"></span></p>
 
-    <button onclick="obtenerGeoreferencia()">Obtener Georeferencia</button>
+<body>
+    <h1>Camera App</h1>
+    <div id="camera-container">
+        <video id="video" width="100%" height="auto"></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <p id="gps-coordinates"></p>
+    </div>
+    <button id="capture-btn">Capture</button>
 
     <script>
-        function obtenerGeoreferencia() {
-            // Aquí irá el código para obtener la geolocalización
-        }
+        // JavaScript code will go here
     </script>
 </body>
+
 </html>
