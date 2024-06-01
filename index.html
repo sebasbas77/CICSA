@@ -80,11 +80,11 @@
             </div>
             <div class="form-group">
                 <label for="latitud">LATITUD</label>
-                <input type="text" id="latitud" required>
+                <input type="text" id="latitud" readonly>
             </div>
             <div class="form-group">
                 <label for="longitud">LONGITUD</label>
-                <input type="text" id="longitud" required>
+                <input type="text" id="longitud" readonly>
             </div>
             <div class="form-group">
                 <label for="serie">SERIE EQUIPÓ ONT</label>
@@ -139,8 +139,43 @@
 
             document.getElementById('output').innerText = template;
         }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('latitud').value = position.coords.latitude;
+            document.getElementById('longitud').value = position.coords.longitude;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("El usuario negó la solicitud de geolocalización.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("La información de ubicación no está disponible.");
+                    break;
+                case error.TIMEOUT:
+                    alert("La solicitud para obtener la ubicación ha caducado.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Se ha producido un error desconocido.");
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            getLocation();
+        });
     </script>
 </body>
 </html>
+
 
 
