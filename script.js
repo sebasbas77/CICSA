@@ -1,16 +1,26 @@
+// Objeto para almacenar la información de ubicación y fotografía
+var locationData = {
+    longitude: null,
+    latitude: null,
+    photoUrl: null
+};
+
 // Verificar si el navegador soporta la API de Geolocalización
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+        navigator.geolocation.getCurrentPosition(saveLocationAndShowPhoto, showError);
     } else {
         alert("La Geolocalización no es soportada por este navegador.");
     }
 }
 
-// Mostrar las coordenadas en la página web
-function showPosition(position) {
-    document.getElementById("longitude").innerHTML = position.coords.longitude;
-    document.getElementById("latitude").innerHTML = position.coords.latitude;
+// Guardar las coordenadas y mostrar la fotografía en la página
+function saveLocationAndShowPhoto(position) {
+    locationData.longitude = position.coords.longitude;
+    locationData.latitude = position.coords.latitude;
+
+    document.getElementById("longitude").innerHTML = locationData.longitude;
+    document.getElementById("latitude").innerHTML = locationData.latitude;
 }
 
 // Manejar errores de geolocalización
@@ -31,7 +41,7 @@ function showError(error) {
     }
 }
 
-// Previsualizar la fotografía antes de subirla
+// Previsualizar la fotografía antes de subirla y guardar la URL
 function previewPhoto(event) {
     var photoElement = document.getElementById("photo");
     var file = event.target.files[0];
@@ -39,7 +49,17 @@ function previewPhoto(event) {
 
     reader.onload = function(e) {
         photoElement.src = e.target.result;
+        locationData.photoUrl = e.target.result;
     };
 
     reader.readAsDataURL(file);
+}
+
+// Mostrar la información de ubicación y fotografía en la página
+function showLocationAndPhoto() {
+    if (locationData.longitude && locationData.latitude && locationData.photoUrl) {
+        alert("Longitud: " + locationData.longitude + "\nLatitud: " + locationData.latitude + "\nURL de la Fotografía: " + locationData.photoUrl);
+    } else {
+        alert("Aún no se ha capturado la ubicación y la fotografía.");
+    }
 }
