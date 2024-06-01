@@ -9,45 +9,25 @@
 
 <h1>Tomar Fotografía</h1>
 
-<button id="take-photo">Tomar Foto</button>
+<input type="file" accept="image/*" capture="environment" id="take-photo">
+<img id="photo" src="#" alt="Tu foto aparecerá aquí">
 
 <script>
-document.getElementById('take-photo').addEventListener('click', function() {
-  if (!('mediaDevices' in navigator)) {
-    alert('Tu navegador no es compatible con la API de mediaDevices.');
+document.getElementById('take-photo').addEventListener('change', function(event) {
+  var photo = document.getElementById('photo');
+  var file = event.target.files[0];
+  
+  if (!file) {
     return;
   }
   
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function(stream) {
-      var video = document.createElement('video');
-      document.body.appendChild(video);
-      video.srcObject = stream;
-      video.play();
-      
-      var canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      video.addEventListener('loadedmetadata', function() {
-        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-        var photoURL = canvas.toDataURL('image/png');
-        
-        var img = document.createElement('img');
-        img.src = photoURL;
-        document.body.appendChild(img);
-        
-        stream.getTracks().forEach(function(track) {
-          track.stop();
-        });
-        
-        video.remove();
-        canvas.remove();
-      });
-    })
-    .catch(function(error) {
-      alert('Se produjo un error al acceder a la cámara: ' + error);
-    });
+  var reader = new FileReader();
+  
+  reader.onload = function(e) {
+    photo.src = e.target.result;
+  }
+  
+  reader.readAsDataURL(file);
 });
 </script>
 
