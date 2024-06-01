@@ -3,56 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obtener Georreferencia GPS</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
+    <title>Obtener Georeferencia GPS</title>
 </head>
 <body>
-    <h1>Obtener Georreferencia GPS</h1>
-    <p>Presiona el botón para obtener tu ubicación actual:</p>
-    <button onclick="getLocation()">Obtener Ubicación</button>
-    <div id="map"></div>
+    <h1>Obtener Georeferencia GPS</h1>
+    <p>Latitud: <span id="latitud"></span></p>
+    <p>Longitud: <span id="longitud"></span></p>
+    <p>Nombre del sector: <span id="sector"></span></p>
+    <p>Ciudad: <span id="ciudad"></span></p>
+
+    <button onclick="obtenerGeoreferencia()">Obtener Georeferencia</button>
 
     <script>
-        var map;
-
-        function initMap(latitude, longitude) {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: latitude, lng: longitude },
-                zoom: 15
-            });
-            var marker = new google.maps.Marker({
-                position: { lat: latitude, lng: longitude },
-                map: map
-            });
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert('La geolocalización no es soportada por este navegador.');
-            }
-        }
-
-        function showPosition(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            initMap(latitude, longitude);
-
-            // Aquí podrías enviar la información de latitud y longitud a un servidor para obtener más detalles como nombre del sector, ciudad, etc.
-            console.log('Latitud:', latitude);
-            console.log('Longitud:', longitude);
+        function obtenerGeoreferencia() {
+            // Aquí irá el código para obtener la geolocalización
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
