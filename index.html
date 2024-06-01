@@ -4,24 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geolocalización y Fotografía</title>
+    <style>
+        #photoContainer {
+            position: relative;
+            display: inline-block;
+        }
+
+        #photo {
+            max-width: 100%;
+        }
+
+        #coordinates {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Coordenadas de Ubicación y Fotografía</h1>
     <p>Longitud: <span id="longitude"></span></p>
     <p>Latitud: <span id="latitude"></span></p>
-    <button onclick="getLocation()">Obtener Ubicación</button>
+    <button onclick="capturePhoto()">Tomar Fotografía</button>
 
     <hr>
 
-    <h2>Toma una Fotografía</h2>
-    <img id="photo" src="" alt="Fotografía" style="max-width: 100%;"><br>
-    <input type="file" accept="image/*" capture="camera" onchange="previewPhoto(event)">
-    
-    <hr>
-
-    <button onclick="showLocationAndPhoto()">Mostrar Ubicación y Fotografía</button>
+    <h2>Fotografía con Coordenadas</h2>
+    <div id="photoContainer">
+        <img id="photo" src="" alt="Fotografía">
+        <div id="coordinates"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
