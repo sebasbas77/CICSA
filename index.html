@@ -58,12 +58,6 @@
         max-width: 100%;
         height: auto;
     }
-
-    .photo-type {
-        font-style: italic;
-        color: #888;
-        margin-top: 5px;
-    }
 </style>
 </head>
 <body>
@@ -83,30 +77,14 @@
             <h2>Foto 1</h2>
             <input type="file" accept="image/*" id="photo1-input" class="take-photo">
             <img id="photo1" class="photo" src="#" alt="Foto 1">
-            <p class="photo-type"></p>
         </div>
-        
-    <div id="photos-container">
-        <div class="photo-section">
-            <h2>Foto 2</h2>
-            <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-            <img id="photo1" class="photo" src="#" alt="Foto 2">
-            <p class="photo-type"></p>
-        </div>
-        
-    <div id="photos-container">
-        <div class="photo-section">
-            <h2>Foto 3</h2>
-            <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-            <img id="photo1" class="photo" src="#" alt="Foto 3">
-            <p class="photo-type"></p>
-        </div>
+        <!-- Repeat the above structure for the remaining photos -->
+        <!-- Change the IDs and alt attributes accordingly -->
 
         <div class="photo-section">
-            <h2>Foto 4</h2>
+            <h2>Foto 2</h2>
             <input type="file" accept="image/*" id="photo2-input" class="take-photo">
-            <img id="photo2" class="photo" src="#" alt="Foto 4">
-            <p class="photo-type"></p>
+            <img id="photo2" class="photo" src="#" alt="Foto 2">
         </div>
         <!-- Repeat the above structure for the remaining photos -->
         <!-- Change the IDs and alt attributes accordingly -->
@@ -114,21 +92,27 @@
 </div>
 
 <script>
+// Variables para controlar la fuente de las imágenes
+var photoSources = {
+    'photo1': '',
+    'photo2': ''
+};
+
 document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
     input.addEventListener('change', function(event) {
         var photo = input.nextElementSibling;
         var file = event.target.files[0];
-        var photoType = input.classList.contains('take-photo') ? 'Cámara' : 'Galería';
         
         if (!file) {
             return;
         }
-        
+
         var reader = new FileReader();
         
         reader.onload = function(e) {
             photo.src = e.target.result;
-            photo.nextElementSibling.textContent = 'Tipo: ' + photoType;
+            // Actualizar la fuente de la imagen en la variable correspondiente
+            photoSources[photo.id] = e.target.result;
         }
         
         reader.readAsDataURL(file);
@@ -145,7 +129,21 @@ document.getElementById('getLocation').addEventListener('click', function() {
         alert('Tu navegador no soporta la geolocalización.');
     }
 });
+
+// Función para obtener información sobre las imágenes
+function getInfo() {
+    var info = '';
+    for (var key in photoSources) {
+        info += key + ': ' + (photoSources[key] ? 'Galería' : 'Cámara') + '<br>';
+    }
+    document.getElementById('imageInfo').innerHTML = info;
+}
 </script>
+
+<!-- Botón para obtener información de las imágenes -->
+<button onclick="getInfo()">Obtener Información de Imágenes</button>
+<!-- Div para mostrar la información de las imágenes -->
+<div id="imageInfo"></div>
 
 </body>
 </html>
