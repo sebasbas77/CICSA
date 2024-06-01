@@ -11,12 +11,12 @@
     <p>Latitud: <span id="latitude"></span></p>
     <button onclick="getLocation()">Obtener Ubicación</button>
 
-    <hr>
-
-    <h2>Toma una Fotografía</h2>
-    <img id="photo" src="" alt="Fotografía" style="max-width: 100%;"><br>
-    <input type="file" accept="image/*" capture="camera" onchange="previewPhoto(event)">
-    <label for="fileInput">TOMAR FOTO</label>
+    <h2>Tomar Fotografía</h2>
+    <div id="camera">
+        <video id="video" width="400" height="300" autoplay></video>
+        <button id="snap" onclick="takeSnapshot()">Tomar Foto</button>
+        <canvas id="canvas" width="400" height="300"></canvas>
+    </div>
 
     <script src="script.js"></script>
 </body>
