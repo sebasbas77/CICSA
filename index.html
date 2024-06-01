@@ -1,29 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geolocalización y Fotografía</title>
+    <title>GPS & Camera App</title>
 </head>
 <body>
-    <h1>Coordenadas de Ubicación y Fotografía</h1>
-    <p>Longitud: <span id="longitude"></span></p>
-    <p>Latitud: <span id="latitude"></span></p>
-    <button onclick="getLocation()">Obtener Ubicación</button>
+    <h1>GPS & Camera App</h1>
+    
+    <div id="gpsCoordinates">
+        <p>Latitude: <span id="latitude"></span></p>
+        <p>Longitude: <span id="longitude"></span></p>
+    </div>
 
-    <hr>
+    <button id="getCoordinatesBtn">Get Coordinates</button>
+    <br>
+    <input type="file" accept="image/*" capture="environment" id="cameraInput">
+    <button id="takePhotoBtn">Take Photo</button>
 
-    <h2>Toma una Fotografía</h2>
-    <img id="photo" src="" alt="Fotografía" style="max-width: 100%;"><br>
-    <input type="file" accept="image/*" capture="camera" onchange="previewPhoto(event)">
-    <button onclick="capturePhoto()">Tomar Fotografía</button>
+    <img src="" alt="Captured Image" id="capturedImage">
 
-    <hr>
-
-    <h2>Guardar Fotografía con Coordenadas</h2>
-    <canvas id="canvas" style="max-width: 100%;"></canvas><br>
-    <button onclick="saveImage()">Guardar</button>
-
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
