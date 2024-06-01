@@ -1,58 +1,24 @@
-// Variables globales para almacenar las coordenadas
-var currentLongitude = null;
-var currentLatitude = null;
+var longitude = "";
+var latitude = "";
+var photoElement = document.getElementById("photo");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
 
 // Verificar si el navegador soporta la API de Geolocalización
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            currentLongitude = position.coords.longitude;
-            currentLatitude = position.coords.latitude;
-            showPosition(position);
-            enablePhotoCapture();
-        }, showError);
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
         alert("La Geolocalización no es soportada por este navegador.");
     }
 }
 
-// Habilitar la captura de fotografía después de obtener las coordenadas
-function enablePhotoCapture() {
-    var photoInput = document.getElementById("photoInput");
-    photoInput.disabled = false;
-}
-
-// Mostrar las coordenadas en la página web y etiquetar la imagen
+// Mostrar las coordenadas en la página web
 function showPosition(position) {
-    document.getElementById("longitude").innerHTML = position.coords.longitude;
-    document.getElementById("latitude").innerHTML = position.coords.latitude;
-    addCoordinatesToImage(position.coords.longitude, position.coords.latitude);
-}
-
-// Agregar las coordenadas a la imagen
-function addCoordinatesToImage(longitude, latitude) {
-    var photoElement = document.getElementById("photo");
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
-
-    // Establecer el tamaño del canvas igual al tamaño de la imagen
-    canvas.width = photoElement.width;
-    canvas.height = photoElement.height;
-
-    // Dibujar la imagen en el canvas
-    context.drawImage(photoElement, 0, 0);
-
-    // Establecer el estilo de texto para las coordenadas
-    context.font = "bold 14px Arial";
-    context.fillStyle = "white";
-    context.textAlign = "right";
-    context.textBaseline = "bottom";
-
-    // Etiquetar la imagen con las coordenadas en la esquina inferior derecha
-    context.fillText(`Longitud: ${longitude.toFixed(6)}, Latitud: ${latitude.toFixed(6)}`, canvas.width - 10, canvas.height - 10);
-
-    // Actualizar la imagen en el elemento <img>
-    photoElement.src = canvas.toDataURL("image/jpeg");
+    longitude = position.coords.longitude.toFixed(6);
+    latitude = position.coords.latitude.toFixed(6);
+    document.getElementById("longitude").innerHTML = longitude;
+    document.getElementById("latitude").innerHTML = latitude;
 }
 
 // Manejar errores de geolocalización
@@ -75,19 +41,59 @@ function showError(error) {
 
 // Previsualizar la fotografía antes de subirla
 function previewPhoto(event) {
-    var photoElement = document.getElementById("photo");
     var file = event.target.files[0];
     var reader = new FileReader();
 
     reader.onload = function(e) {
         photoElement.src = e.target.result;
-        var image = new Image();
-        image.onload = function() {
-            addCoordinatesToImage(currentLongitude, currentLatitude);
-        };
-        image.src = e.target.result;
     };
 
     reader.readAsDataURL(file);
 }
 
+// Capturar una fotografía desde la cámara del dispositivo
+function capturePhoto() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("La captura de imágenes no es soportada por este navegador.");
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+        var video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+
+        var context = canvas.getContext('2d');
+
+        video.addEventListener('loadedmetadata', function() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Mostrar coordenadas en la imagen
+            context.font = "16px Arial";
+            context.fillStyle = "white";
+            context.fillText(`Longitud: ${longitude} / Latitud: ${latitude}`, 10, canvas.height - 10);
+
+            // Detener la reproducción del video
+            stream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        });
+    })
+    .catch(function(error) {
+        console.error("Error al capturar la imagen:", error);
+        alert("Se produjo un error al capturar la imagen.");
+    });
+}
+
+// Guardar la imagen con las coordenadas
+function saveImage() {
+    var dataURL = canvas.toDataURL('image/jpeg');
+
+    var link = document.createElement('a');
+    link.href = dataURL;
+    link.download = `photo_${longitude}_${latitude}.jpg`;
+    link.click();
+}
