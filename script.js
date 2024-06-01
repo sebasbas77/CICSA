@@ -1,50 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const getCoordinatesBtn = document.getElementById('getCoordinatesBtn');
-    const takePhotoBtn = document.getElementById('takePhotoBtn');
-    const latitudeSpan = document.getElementById('latitude');
-    const longitudeSpan = document.getElementById('longitude');
-    const capturedImage = document.getElementById('capturedImage');
-    const cameraInput = document.getElementById('cameraInput');
+function obtenerGeoreferencia() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(mostrarPosicion);
+    } else {
+        alert("La geolocalización no está soportada por este navegador.");
+    }
+}
 
-    let latitude = null;
-    let longitude = null;
+function mostrarPosicion(posicion) {
+    const latitud = posicion.coords.latitude;
+    const longitud = posicion.coords.longitude;
 
-    // Función para obtener las coordenadas GPS
-    const getCoordinates = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
-                latitudeSpan.textContent = latitude.toFixed(6);
-                longitudeSpan.textContent = longitude.toFixed(6);
-            }, error => {
-                alert('Error getting GPS coordinates: ' + error.message);
-            });
-        } else {
-            alert('Geolocation is not supported by this browser.');
-        }
-    };
+    // Aquí puedes usar una API de geocodificación inversa para obtener el nombre del sector y la ciudad
+    // Por ejemplo, usando la API de Google Maps Geocoding
 
-    // Función para tomar una fotografía
-    const takePhoto = () => {
-        cameraInput.click();
-    };
+    // Aquí se actualizan los elementos en la página con los datos obtenidos
+    document.getElementById("latitud").textContent = latitud;
+    document.getElementById("longitud").textContent = longitud;
+    document.getElementById("sector").textContent = "Sector X"; // Puedes cambiar esto por el resultado real obtenido
+    document.getElementById("ciudad").textContent = "Ciudad Y"; // Puedes cambiar esto por el resultado real obtenido
+}
 
-    // Mostrar la fotografía capturada
-    cameraInput.addEventListener('change', () => {
-        const file = cameraInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                capturedImage.style.display = 'block';
-                capturedImage.src = reader.result;
-                // Aquí podrías enviar la imagen con las coordenadas a algún servidor para etiquetarla, almacenarla, etc.
-            };
-        }
-    });
-
-    // Event listeners
-    getCoordinatesBtn.addEventListener('click', getCoordinates);
-    takePhotoBtn.addEventListener('click', takePhoto);
-});
