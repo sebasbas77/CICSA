@@ -13,12 +13,12 @@
         margin-top: 20px;
     }
     
-    .photo-section {
+    .photo-section, .location-section {
         width: calc(50% - 20px);
         margin-bottom: 20px;
     }
     
-    .photo-section h2 {
+    .photo-section h2, .location-section h2 {
         margin-bottom: 10px;
     }
     
@@ -38,28 +38,15 @@
         <input type="file" accept="image/*" id="photo1-input" class="take-photo">
         <img id="photo1" class="photo" src="#" alt="Foto 1">
     </div>
+    <!-- Repeat the above structure for the remaining photos -->
+    <!-- Change the IDs and alt attributes accordingly -->
 
-<div id="photos-container">
-    <div class="photo-section">
-        <h2>Foto 1</h2>
-        <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-        <img id="photo1" class="photo" src="#" alt="Foto 2">
+    <div class="location-section">
+        <h2>Obtener Coordenadas</h2>
+        <p id="latitude">Latitud:</p>
+        <p id="longitude">Longitud:</p>
+        <button id="getLocation">Obtener Coordenadas</button>
     </div>
-
- <div id="photos-container">
-    <div class="photo-section">
-        <h2>Foto 1</h2>
-        <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-        <img id="photo1" class="photo" src="#" alt="Foto 3">
-    </div>
-
- <div id="photos-container">
-    <div class="photo-section">
-        <h2>Foto 1</h2>
-        <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-        <img id="photo1" class="photo" src="#" alt="Foto 4">
-    </div>    
-
 </div>
 
 <script>
@@ -80,6 +67,17 @@ document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
         
         reader.readAsDataURL(file);
     });
+});
+
+document.getElementById('getLocation').addEventListener('click', function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('latitude').textContent = 'Latitud: ' + position.coords.latitude;
+            document.getElementById('longitude').textContent = 'Longitud: ' + position.coords.longitude;
+        });
+    } else {
+        alert('Tu navegador no soporta la geolocalización.');
+    }
 });
 </script>
 
