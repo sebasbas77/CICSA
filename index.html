@@ -84,8 +84,6 @@
             <img id="photo1" class="photo" src="#" alt="Foto 1">
             <p id="photo1-source"></p>
         </div>
-        <!-- Repeat the above structure for the remaining photos -->
-        <!-- Change the IDs and alt attributes accordingly -->
 
         <div class="photo-section">
             <h2>Foto 2</h2>
@@ -117,7 +115,7 @@ document.querySelectorAll('.take-photo').forEach(function(input) {
             photo.src = e.target.result;
 
             // Obtener la fuente de la imagen por su nombre de archivo
-            var source = file.name.startsWith('IMG_') || file.name.startsWith('VID_') ? 'Cámara' : 'Galería';
+            var source = file.name.startsWith('IMG_') ? 'Cámara' : 'Galería';
             sourceText.textContent = 'Fuente: ' + source;
         }
 
