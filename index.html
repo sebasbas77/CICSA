@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera App</title>
+    <title>Tomar Fotografía</title>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #video {
+            width: 100%;
+            max-width: 500px;
+            border: 2px solid black;
+        }
+        #captureBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Camera App</h1>
-    <div id="camera-container">
-        <video id="video" width="100%" height="auto"></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <p id="gps-coordinates"></p>
+    <div id="container">
+        <video id="video" autoplay></video>
     </div>
-    <button id="capture-btn">Capture</button>
+    <button id="captureBtn">Tomar Fotografía</button>
+    <canvas style="display: none;" id="canvas"></canvas>
 
-    <script>
-        // JavaScript code will go here
-    </script>
+    <script src="main.js"></script>
 </body>
-
 </html>
