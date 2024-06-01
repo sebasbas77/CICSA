@@ -1,26 +1,36 @@
-// Objeto para almacenar la información de ubicación y fotografía
-var locationData = {
-    longitude: null,
-    latitude: null,
-    photoUrl: null
-};
-
 // Verificar si el navegador soporta la API de Geolocalización
-function getLocation() {
+function getLocationAndCapturePhoto() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(saveLocationAndShowPhoto, showError);
+        navigator.geolocation.getCurrentPosition(function(position) {
+            showPosition(position);
+            capturePhoto();
+        }, showError);
     } else {
         alert("La Geolocalización no es soportada por este navegador.");
     }
 }
 
-// Guardar las coordenadas y mostrar la fotografía en la página
-function saveLocationAndShowPhoto(position) {
-    locationData.longitude = position.coords.longitude;
-    locationData.latitude = position.coords.latitude;
+// Mostrar las coordenadas en la página web y etiquetar la imagen
+function showPosition(position) {
+    var longitude = position.coords.longitude;
+    var latitude = position.coords.latitude;
 
-    document.getElementById("longitude").innerHTML = locationData.longitude;
-    document.getElementById("latitude").innerHTML = locationData.latitude;
+    document.getElementById("longitude").innerHTML = longitude;
+    document.getElementById("latitude").innerHTML = latitude;
+
+    // Etiquetar la imagen con las coordenadas
+    var photoElement = document.getElementById("photo");
+    photoElement.onload = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = photoElement.width;
+        canvas.height = photoElement.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(photoElement, 0, 0);
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "white";
+        ctx.fillText(`Latitud: ${latitude.toFixed(6)}, Longitud: ${longitude.toFixed(6)}`, canvas.width - 230, canvas.height - 10);
+        photoElement.src = canvas.toDataURL();
+    };
 }
 
 // Manejar errores de geolocalización
@@ -41,7 +51,7 @@ function showError(error) {
     }
 }
 
-// Previsualizar la fotografía antes de subirla y guardar la URL
+// Previsualizar la fotografía antes de subirla
 function previewPhoto(event) {
     var photoElement = document.getElementById("photo");
     var file = event.target.files[0];
@@ -49,17 +59,41 @@ function previewPhoto(event) {
 
     reader.onload = function(e) {
         photoElement.src = e.target.result;
-        locationData.photoUrl = e.target.result;
     };
 
     reader.readAsDataURL(file);
 }
 
-// Mostrar la información de ubicación y fotografía en la página
-function showLocationAndPhoto() {
-    if (locationData.longitude && locationData.latitude && locationData.photoUrl) {
-        alert("Longitud: " + locationData.longitude + "\nLatitud: " + locationData.latitude + "\nURL de la Fotografía: " + locationData.photoUrl);
-    } else {
-        alert("Aún no se ha capturado la ubicación y la fotografía.");
+// Capturar una fotografía desde la cámara del dispositivo
+function capturePhoto() {
+    var photoElement = document.getElementById("photo");
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("La captura de imágenes no es soportada por este navegador.");
+        return;
     }
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+        var video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+
+        var canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        photoElement.src = canvas.toDataURL('image/jpeg');
+
+        stream.getTracks().forEach(function(track) {
+            track.stop();
+        });
+    })
+    .catch(function(error) {
+        console.error("Error al capturar la imagen:", error);
+        alert("Se produjo un error al capturar la imagen.");
+    });
 }
