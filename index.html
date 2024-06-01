@@ -15,10 +15,10 @@
 
     <h2>Toma una Fotografía</h2>
     <img id="photo" src="" alt="Fotografía" style="max-width: 100%;"><br>
-    <button onclick="capturePhoto()">Tomar Fotografía</button>
+    <input type="file" accept="image/*" capture="camera" onchange="previewPhoto(event)">
+    <label for="fileInput">TOMAR FOTO</label>
 
     <script src="script.js"></script>
 </body>
 </html>
-
 
