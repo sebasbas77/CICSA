@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tomar Fotografías</title>
+<title>Tomar Fotografías o Cargar desde Galería</title>
 <style>
     #photos-container {
         display: flex;
@@ -30,38 +30,57 @@
 </head>
 <body>
 
-<h1>Tomar Fotografías</h1>
+<h1>Tomar Fotografías o Cargar desde Galería</h1>
 
 <div id="photos-container">
     <div class="photo-section">
         <h2>Foto 1</h2>
-        <input type="file" accept="image/*" capture="environment" class="take-photo">
-        <img class="photo" src="#" alt="Foto 1">
+        <input type="file" accept="image/*" id="photo1-input" capture="environment" class="take-photo">
+        <img id="photo1" class="photo" src="#" alt="Foto 1">
     </div>
     <div class="photo-section">
         <h2>Foto 2</h2>
-        <input type="file" accept="image/*" capture="environment" class="take-photo">
-        <img class="photo" src="#" alt="Foto 2">
+        <input type="file" accept="image/*" id="photo2-input" class="load-photo">
+        <img id="photo2" class="photo" src="#" alt="Foto 2">
     </div>
     <div class="photo-section">
         <h2>Foto 3</h2>
-        <input type="file" accept="image/*" capture="environment" class="take-photo">
-        <img class="photo" src="#" alt="Foto 3">
+        <input type="file" accept="image/*" id="photo3-input" class="load-photo">
+        <img id="photo3" class="photo" src="#" alt="Foto 3">
     </div>
     <div class="photo-section">
         <h2>Foto 4</h2>
-        <input type="file" accept="image/*" capture="environment" class="take-photo">
-        <img class="photo" src="#" alt="Foto 4">
+        <input type="file" accept="image/*" id="photo4-input" class="load-photo">
+        <img id="photo4" class="photo" src="#" alt="Foto 4">
     </div>
     <div class="photo-section">
         <h2>Foto 5</h2>
-        <input type="file" accept="image/*" capture="environment" class="take-photo">
-        <img class="photo" src="#" alt="Foto 5">
+        <input type="file" accept="image/*" id="photo5-input" class="load-photo">
+        <img id="photo5" class="photo" src="#" alt="Foto 5">
     </div>
 </div>
 
 <script>
 document.querySelectorAll('.take-photo').forEach(function(input) {
+    input.addEventListener('change', function(event) {
+        var photo = input.nextElementSibling;
+        var file = event.target.files[0];
+        
+        if (!file) {
+            return;
+        }
+        
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            photo.src = e.target.result;
+        }
+        
+        reader.readAsDataURL(file);
+    });
+});
+
+document.querySelectorAll('.load-photo').forEach(function(input) {
     input.addEventListener('change', function(event) {
         var photo = input.nextElementSibling;
         var file = event.target.files[0];
