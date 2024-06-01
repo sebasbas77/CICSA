@@ -75,7 +75,7 @@
     <div id="photos-container">
         <div class="photo-section">
             <h2>Foto 1</h2>
-            <input type="file" accept="image/*" id="photo1-input" class="take-photo">
+            <input type="file" accept="image/*" id="photo1-input" class="take-photo" data-source="Cámara">
             <img id="photo1" class="photo" src="#" alt="Foto 1">
         </div>
         <!-- Repeat the above structure for the remaining photos -->
@@ -83,7 +83,7 @@
 
         <div class="photo-section">
             <h2>Foto 2</h2>
-            <input type="file" accept="image/*" id="photo2-input" class="take-photo">
+            <input type="file" accept="image/*" id="photo2-input" class="take-photo" data-source="Cámara">
             <img id="photo2" class="photo" src="#" alt="Foto 2">
         </div>
         <!-- Repeat the above structure for the remaining photos -->
@@ -92,12 +92,6 @@
 </div>
 
 <script>
-// Variables para controlar la fuente de las imágenes
-var photoSources = {
-    'photo1': '',
-    'photo2': ''
-};
-
 document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
     input.addEventListener('change', function(event) {
         var photo = input.nextElementSibling;
@@ -111,10 +105,12 @@ document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
         
         reader.onload = function(e) {
             photo.src = e.target.result;
-            // Actualizar la fuente de la imagen en la variable correspondiente
-            photoSources[photo.id] = e.target.result;
         }
-        
+
+        // Obtener la fuente de la imagen (Cámara o Galería)
+        var source = input.getAttribute('data-source');
+        console.log('Fuente de la imagen:', source);
+
         reader.readAsDataURL(file);
     });
 });
@@ -129,21 +125,7 @@ document.getElementById('getLocation').addEventListener('click', function() {
         alert('Tu navegador no soporta la geolocalización.');
     }
 });
-
-// Función para obtener información sobre las imágenes
-function getInfo() {
-    var info = '';
-    for (var key in photoSources) {
-        info += key + ': ' + (photoSources[key] ? 'Galería' : 'Cámara') + '<br>';
-    }
-    document.getElementById('imageInfo').innerHTML = info;
-}
 </script>
-
-<!-- Botón para obtener información de las imágenes -->
-<button onclick="getInfo()">Obtener Información de Imágenes</button>
-<!-- Div para mostrar la información de las imágenes -->
-<div id="imageInfo"></div>
 
 </body>
 </html>
