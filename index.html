@@ -35,7 +35,7 @@
 <div id="photos-container">
     <div class="photo-section">
         <h2>Foto 1</h2>
-        <input type="file" accept="image/*" id="photo1-input" capture="environment" class="take-photo">
+        <input type="file" accept="image/*" id="photo1-input" class="take-photo">
         <img id="photo1" class="photo" src="#" alt="Foto 1">
     </div>
     <div class="photo-section">
@@ -61,26 +61,7 @@
 </div>
 
 <script>
-document.querySelectorAll('.take-photo').forEach(function(input) {
-    input.addEventListener('change', function(event) {
-        var photo = input.nextElementSibling;
-        var file = event.target.files[0];
-        
-        if (!file) {
-            return;
-        }
-        
-        var reader = new FileReader();
-        
-        reader.onload = function(e) {
-            photo.src = e.target.result;
-        }
-        
-        reader.readAsDataURL(file);
-    });
-});
-
-document.querySelectorAll('.load-photo').forEach(function(input) {
+document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
     input.addEventListener('change', function(event) {
         var photo = input.nextElementSibling;
         var file = event.target.files[0];
