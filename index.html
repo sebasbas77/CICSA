@@ -1,44 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cámara en Android</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomar Fotografía</title>
 </head>
 <body>
-    <h1>Cámara en Android</h1>
-    <button id="startCamera">Iniciar cámara</button>
-    <br>
-    <video id="video" width="640" height="480" autoplay style="display:none;"></video>
-    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-    <br>
-    <button id="takePhoto">Tomar foto</button>
-    <br>
-    <img id="photo" src="#" alt="Tu foto aparecerá aquí" style="display:none;">
-    
-    <script>
-        const startCameraButton = document.getElementById('startCamera');
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const photo = document.getElementById('photo');
-        const takePhotoButton = document.getElementById('takePhoto');
 
-        startCameraButton.addEventListener('click', async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-                video.style.display = 'block';
-            } catch (error) {
-                console.error('Error al acceder a la cámara:', error);
-            }
-        });
+<h1>Tomar Fotografía</h1>
 
-        takePhotoButton.addEventListener('click', () => {
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            photo.src = canvas.toDataURL('image/png');
-            photo.style.display = 'block';
+<button id="take-photo">Tomar Foto</button>
+
+<script>
+document.getElementById('take-photo').addEventListener('click', function() {
+  if (!('mediaDevices' in navigator)) {
+    alert('Tu navegador no es compatible con la API de mediaDevices.');
+    return;
+  }
+  
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+      var video = document.createElement('video');
+      document.body.appendChild(video);
+      video.srcObject = stream;
+      video.play();
+      
+      var canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      video.addEventListener('loadedmetadata', function() {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        var photoURL = canvas.toDataURL('image/png');
+        
+        var img = document.createElement('img');
+        img.src = photoURL;
+        document.body.appendChild(img);
+        
+        stream.getTracks().forEach(function(track) {
+          track.stop();
         });
-    </script>
+        
+        video.remove();
+        canvas.remove();
+      });
+    })
+    .catch(function(error) {
+      alert('Se produjo un error al acceder a la cámara: ' + error);
+    });
+});
+</script>
+
 </body>
 </html>
-
