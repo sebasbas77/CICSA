@@ -1,139 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tomar Fotografías o Cargar desde Galería</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    .location-section {
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .location-section h2 {
-        margin-bottom: 10px;
-    }
-
-    .location-section p {
-        margin: 5px 0;
-    }
-
-    #photos-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: space-around;
-    }
-
-    .photo-section {
-        width: calc(50% - 20px);
-        margin-bottom: 20px;
-    }
-
-    .photo-section h2 {
-        margin-bottom: 10px;
-    }
-
-    .photo-section img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .photo-section p {
-        font-size: 14px;
-        color: #555;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Texto GPON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        label {
+            flex: 1;
+            min-width: 150px;
+        }
+        input {
+            flex: 2;
+            padding: 10px;
+            margin-left: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="location-section">
-        <h2>Obtener Coordenadas</h2>
-        <p id="latitude">Latitud:</p>
-        <p id="longitude">Longitud:</p>
-        <button id="getLocation">Obtener Coordenadas</button>
+    <div class="container">
+        <h1>Generador de Texto GPON</h1>
+        <form id="dataForm">
+            <div class="form-group">
+                <label for="instalacion">INSTALACIÓN GPON</label>
+                <input type="text" id="instalacion" required>
+            </div>
+            <div class="form-group">
+                <label for="cuadrilla">CUADRILLA</label>
+                <input type="text" id="cuadrilla" required>
+            </div>
+            <div class="form-group">
+                <label for="potencia">Potencia TX (dBm)</label>
+                <input type="text" id="potencia" required>
+            </div>
+            <div class="form-group">
+                <label for="cluster">CLÚSTER</label>
+                <input type="text" id="cluster" required>
+            </div>
+            <div class="form-group">
+                <label for="nap">NAP</label>
+                <input type="text" id="nap" required>
+            </div>
+            <div class="form-group">
+                <label for="puerto">PUERTO</label>
+                <input type="text" id="puerto" required>
+            </div>
+            <div class="form-group">
+                <label for="precinto">PRECINTO</label>
+                <input type="text" id="precinto" required>
+            </div>
+            <div class="form-group">
+                <label for="latitud">LATITUD</label>
+                <input type="text" id="latitud" required>
+            </div>
+            <div class="form-group">
+                <label for="longitud">LONGITUD</label>
+                <input type="text" id="longitud" required>
+            </div>
+            <div class="form-group">
+                <label for="serie">SERIE EQUIPÓ ONT</label>
+                <input type="text" id="serie" required>
+            </div>
+            <div class="form-group">
+                <label for="metraje">METRAJE (metros)</label>
+                <input type="text" id="metraje" required>
+            </div>
+            <div class="form-group">
+                <label for="gancho">GANCHO TENSOR</label>
+                <input type="text" id="gancho" required>
+            </div>
+            <div class="form-group">
+                <label for="grapas">GRAPAS</label>
+                <input type="text" id="grapas" required>
+            </div>
+            <div class="form-group">
+                <label for="amarras10">AMARRAS 10</label>
+                <input type="text" id="amarras10" required>
+            </div>
+            <div class="form-group">
+                <label for="amarras20">AMARRAS 20</label>
+                <input type="text" id="amarras20" required>
+            </div>
+            <button type="button" onclick="generateText()">Generar Texto</button>
+        </form>
+        <div class="output" id="output"></div>
     </div>
 
-    <h1>Tomar Fotografías o Cargar desde Galería</h1>
+    <script>
+        function generateText() {
+            const data = {
+                instalacion: document.getElementById('instalacion').value,
+                cuadrilla: document.getElementById('cuadrilla').value,
+                potencia: document.getElementById('potencia').value,
+                cluster: document.getElementById('cluster').value,
+                nap: document.getElementById('nap').value,
+                puerto: document.getElementById('puerto').value,
+                precinto: document.getElementById('precinto').value,
+                latitud: document.getElementById('latitud').value,
+                longitud: document.getElementById('longitud').value,
+                serie: document.getElementById('serie').value,
+                metraje: document.getElementById('metraje').value,
+                gancho: document.getElementById('gancho').value,
+                grapas: document.getElementById('grapas').value,
+                amarras10: document.getElementById('amarras10').value,
+                amarras20: document.getElementById('amarras20').value
+            };
 
-    <div id="photos-container">
-        <div class="photo-section">
-            <h2>Foto 1</h2>
-            <input type="file" accept="image/*" id="photo1-input" class="take-photo">
-            <img id="photo1" class="photo" src="#" alt="Foto 1">
-            <p id="photo1-source"></p>
-        </div>
+            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPÓ ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
-        <div class="photo-section">
-            <h2>Foto 2</h2>
-            <input type="file" accept="image/*" id="photo2-input" class="take-photo">
-            <img id="photo2" class="photo" src="#" alt="Foto 2">
-            <p id="photo2-source"></p>
-        </div>
-
-        <!-- Add more photo sections here up to Foto 18 -->
-        <!-- Ensure to change the IDs and alt attributes accordingly -->
-
-    </div>
-</div>
-
-<script>
-document.querySelectorAll('.take-photo').forEach(function(input) {
-    input.addEventListener('change', function(event) {
-        var photo = input.nextElementSibling;
-        var sourceText = photo.nextElementSibling;
-        var file = event.target.files[0];
-
-        if (!file) {
-            return;
+            document.getElementById('output').innerText = template;
         }
-
-        var reader = new FileReader();
-        
-        reader.onload = function(e) {
-            photo.src = e.target.result;
-
-            // Obtener la fuente de la imagen por su nombre de archivo
-            var source = file.name.startsWith('IMG_') ? 'Cámara' : 'Galería';
-            sourceText.textContent = 'Fuente: ' + source;
-        }
-
-        reader.readAsDataURL(file);
-    });
-});
-
-document.getElementById('getLocation').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('latitude').textContent = 'Latitud: ' + position.coords.latitude;
-            document.getElementById('longitude').textContent = 'Longitud: ' + position.coords.longitude;
-        });
-    } else {
-        alert('Tu navegador no soporta la geolocalización.');
-    }
-});
-</script>
-
+    </script>
 </body>
 </html>
+
+
