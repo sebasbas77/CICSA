@@ -58,6 +58,11 @@
         max-width: 100%;
         height: auto;
     }
+
+    .photo-section p {
+        font-size: 14px;
+        color: #555;
+    }
 </style>
 </head>
 <body>
@@ -75,28 +80,33 @@
     <div id="photos-container">
         <div class="photo-section">
             <h2>Foto 1</h2>
-            <input type="file" accept="image/*" id="photo1-input" class="take-photo" data-source="Cámara">
+            <input type="file" accept="image/*" id="photo1-input" class="take-photo">
             <img id="photo1" class="photo" src="#" alt="Foto 1">
+            <p id="photo1-source"></p>
         </div>
         <!-- Repeat the above structure for the remaining photos -->
         <!-- Change the IDs and alt attributes accordingly -->
 
         <div class="photo-section">
             <h2>Foto 2</h2>
-            <input type="file" accept="image/*" id="photo2-input" class="take-photo" data-source="Cámara">
+            <input type="file" accept="image/*" id="photo2-input" class="take-photo">
             <img id="photo2" class="photo" src="#" alt="Foto 2">
+            <p id="photo2-source"></p>
         </div>
-        <!-- Repeat the above structure for the remaining photos -->
-        <!-- Change the IDs and alt attributes accordingly -->
+
+        <!-- Add more photo sections here up to Foto 18 -->
+        <!-- Ensure to change the IDs and alt attributes accordingly -->
+
     </div>
 </div>
 
 <script>
-document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
+document.querySelectorAll('.take-photo').forEach(function(input) {
     input.addEventListener('change', function(event) {
         var photo = input.nextElementSibling;
+        var sourceText = photo.nextElementSibling;
         var file = event.target.files[0];
-        
+
         if (!file) {
             return;
         }
@@ -105,11 +115,11 @@ document.querySelectorAll('.take-photo, .load-photo').forEach(function(input) {
         
         reader.onload = function(e) {
             photo.src = e.target.result;
-        }
 
-        // Obtener la fuente de la imagen (Cámara o Galería)
-        var source = input.getAttribute('data-source');
-        console.log('Fuente de la imagen:', source);
+            // Obtener la fuente de la imagen por su nombre de archivo
+            var source = file.name.startsWith('IMG_') || file.name.startsWith('VID_') ? 'Cámara' : 'Galería';
+            sourceText.textContent = 'Fuente: ' + source;
+        }
 
         reader.readAsDataURL(file);
     });
