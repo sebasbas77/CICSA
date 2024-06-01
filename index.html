@@ -1,25 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPS & Camera App</title>
+    <title>Obtener Georreferencia GPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>GPS & Camera App</h1>
-    
-    <div id="gpsCoordinates">
-        <p>Latitude: <span id="latitude"></span></p>
-        <p>Longitude: <span id="longitude"></span></p>
-    </div>
+    <h1>Obtener Georreferencia GPS</h1>
+    <p>Presiona el botón para obtener tu ubicación actual:</p>
+    <button onclick="getLocation()">Obtener Ubicación</button>
+    <div id="map"></div>
 
-    <button id="getCoordinatesBtn">Get Coordinates</button>
-    <br>
-    <input type="file" accept="image/*" capture="environment" id="cameraInput">
-    <button id="takePhotoBtn">Take Photo</button>
+    <script>
+        var map;
 
-    <img src="" alt="Captured Image" id="capturedImage">
+        function initMap(latitude, longitude) {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: latitude, lng: longitude },
+                zoom: 15
+            });
+            var marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map
+            });
+        }
 
-    <script src="app.js"></script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert('La geolocalización no es soportada por este navegador.');
+            }
+        }
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            initMap(latitude, longitude);
+
+            // Aquí podrías enviar la información de latitud y longitud a un servidor para obtener más detalles como nombre del sector, ciudad, etc.
+            console.log('Latitud:', latitude);
+            console.log('Longitud:', longitude);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
