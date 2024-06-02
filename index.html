@@ -1,90 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Texto GPON</title>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --background-color: #f0f0f0;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --error-color: red;
+            --border-color: #cccccc;
+            --input-bg: #f9f9f9;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+        }
+
         body {
             font-family: Arial, sans-serif;
             padding: 0;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: var(--background-color);
         }
+
         .container {
             max-width: 100%;
             padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--container-bg);
+            box-shadow: 0 0 10px var(--shadow-color);
             border-radius: 8px;
+            margin: 20px auto;
         }
+
         h1 {
             text-align: center;
             font-size: 1.5em;
-            color: #333333;
+            color: var(--text-color);
         }
+
         .form-group {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
+
         label {
             flex: 1 1 150px;
             margin-right: 10px;
             font-weight: bold;
-            color: #555555;
+            color: var(--text-color);
         }
+
         input {
             flex: 2 1 calc(100% - 180px);
             padding: 8px;
-            font-size: 0.9em; /* Reducir el tamaño de fuente */
-            border: 1px solid #cccccc;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
         }
+
+        input.error {
+            border-color: var(--error-color);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
         button {
-            width: 100%;
+            flex: 1;
             padding: 10px;
             font-size: 1em;
             color: #ffffff;
-            background-color: #007bff;
+            background-color: var(--primary-color);
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
         }
+
+        button:last-child {
+            margin-right: 0;
+        }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover);
         }
+
         .output {
             margin-top: 20px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            background-color: #f9f9f9;
+            background-color: var(--input-bg);
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #e0e0e0;
             font-size: 0.9em;
-            color: #333333;
+            color: var(--text-color);
+            position: relative;
         }
-        .error {
-            color: red;
+
+        .copied {
+            position: absolute;
+            top: -25px;
+            right: 10px;
             font-size: 0.9em;
-            margin-top: -10px;
-            margin-bottom: 10px;
-            width: 100%;
+            color: var(--success-color);
         }
 
         @media only screen and (max-width: 600px) {
             input {
-                padding: 6px; /* Reducir el padding */
-                font-size: 0.8em; /* Reducir aún más el tamaño de fuente */
+                padding: 6px;
+                font-size: 0.8em;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            button:last-child {
+                margin-bottom: 0;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Generador de Texto GPON</h1>
@@ -92,135 +146,158 @@
             <div class="form-group">
                 <label for="instalacion">INSTALACIÓN GPON</label>
                 <input type="text" id="instalacion">
-                <span class="error" id="instalacionError"></span>
             </div>
             <div class="form-group">
                 <label for="cuadrilla">CUADRILLA</label>
                 <input type="text" id="cuadrilla">
-                <span class="error" id="cuadrillaError"></span>
             </div>
             <div class="form-group">
                 <label for="potencia">Potencia TX (dBm)</label>
                 <input type="text" id="potencia">
-                <span class="error" id="potenciaError"></span>
             </div>
             <div class="form-group">
                 <label for="cluster">CLÚSTER</label>
                 <input type="text" id="cluster">
-                <span class="error" id="clusterError"></span>
             </div>
             <div class="form-group">
                 <label for="nap">NAP</label>
                 <input type="text" id="nap">
-                <span class="error" id="napError"></span>
             </div>
             <div class="form-group">
                 <label for="puerto">PUERTO</label>
                 <input type="text" id="puerto">
-                <span class="error" id="puertoError"></span>
             </div>
             <div class="form-group">
                 <label for="precinto">PRECINTO</label>
                 <input type="text" id="precinto">
-                <span class="error" id="precintoError"></span>
             </div>
             <div class="form-group">
                 <label for="latitud">LATITUD</label>
                 <input type="text" id="latitud" readonly>
-                <span class="error" id="latitudError"></span>
             </div>
             <div class="form-group">
                 <label for="longitud">LONGITUD</label>
                 <input type="text" id="longitud" readonly>
-                <span class="error" id="longitudError"></span>
             </div>
             <div class="form-group">
-                <label for="serie">SERIE EQUIPÓ ONT</label>
+                <label for="serie">SERIE EQUIPO ONT</label>
                 <input type="text" id="serie">
-                <span class="error" id="serieError"></span>
             </div>
             <div class="form-group">
                 <label for="metraje">METRAJE (metros)</label>
                 <input type="text" id="metraje">
-                <span class="error" id="metrajeError"></span>
             </div>
             <div class="form-group">
                 <label for="gancho">GANCHO TENSOR</label>
                 <input type="text" id="gancho">
-                <span class="error" id="ganchoError"></span>
             </div>
             <div class="form-group">
                 <label for="grapas">GRAPAS</label>
                 <input type="text" id="grapas">
-                <span class="error" id="grapasError"></span>
             </div>
             <div class="form-group">
                 <label for="amarras10">AMARRAS 10</label>
                 <input type="text" id="amarras10">
-                <span class="error" id="amarras10Error"></span>
             </div>
             <div class="form-group">
                 <label for="amarras20">AMARRAS 20</label>
                 <input type="text" id="amarras20">
-                <span class="error" id="amarras20Error"></span>
             </div>
-            <button type="button" onclick="generateText()">Generar Texto</button>
-            <button type="button" onclick="copyText()">Copiar Texto</button>
+            <div class="buttons">
+                <button type="button" onclick="copyText()">Copiar Texto</button>
+                <button type="button" onclick="generateText()">Generar Texto</button>
+            </div>
         </form>
         <div class="output" id="output"></div>
     </div>
 
     <script>
-        function isValidInput(input) {
-            const regex = /^[a-zA-Z0-9\s]+$/;
-            return regex.test(input);
-        }
+        document.addEventListener('DOMContentLoaded', (event) => {
+            getLocation();
+        });
 
         function generateText() {
             const fields = [
-                'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap', 
-                'puerto', 'precinto', 'latitud', 'longitud', 'serie', 
+                'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
+                'puerto', 'precinto', 'latitud', 'longitud', 'serie',
                 'metraje', 'gancho', 'grapas', 'amarras10', 'amarras20'
             ];
             let isValid = true;
 
             fields.forEach(field => {
                 const inputElement = document.getElementById(field);
-                const errorElement = document.getElementById(`${field}Error`);
                 if (!inputElement.value.trim()) {
-                    inputElement.style.borderColor = 'red'; // Resalta el campo en rojo
+                    inputElement.classList.add('error');
                     isValid = false;
                 } else {
-                    inputElement.style.borderColor = ''; // Restaura el borde a su color original
+                    inputElement.classList.remove('error');
                 }
-                errorElement.innerText = ""; // Limpia cualquier mensaje de error anterior
             });
 
             if (!isValid) {
                 return;
             }
 
-            const data = {};
-            fields.forEach(field => {
-                data[field] = document.getElementById(field).value.trim();
-            });
+            const data = fields.reduce((acc, field) => {
+                acc[field] = document.getElementById(field).value.trim();
+                return acc;
+            }, {});
 
-            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPÓ ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
+            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
             document.getElementById('output').innerText = template;
         }
 
         function copyText() {
             const outputElement = document.getElementById('output');
-            const textArea = document.createElement('textarea');
-            textArea.value = outputElement.innerText;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('Texto copiado.');
+            navigator.clipboard.writeText(outputElement.innerText).then(() => {
+                showCopiedMessage();
+            }, (err) => {
+                console.error('Error al copiar el texto: ', err);
+            });
+        }
+
+        function showCopiedMessage() {
+            const outputElement = document.getElementById('output');
+            const copiedMessage = document.createElement('div');
+            copiedMessage.className = 'copied';
+            copiedMessage.innerText = 'Texto copiado';
+            outputElement.appendChild(copiedMessage);
+            setTimeout(() => {
+                copiedMessage.remove();
+            }, 2000);
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        }
+
+        function showPosition(position) {
+            document.getElementById('latitud').value = position.coords.latitude;
+            document.getElementById('longitud').value = position.coords.longitude;
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("El usuario negó la solicitud de geolocalización.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("La información de ubicación no está disponible.");
+                    break;
+                case error.TIMEOUT:
+                    alert("La solicitud para obtener la ubicación ha caducado.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Se ha producido un error desconocido.");
+                    break;
+            }
         }
     </script>
 </body>
-</html>
 
+</html>
