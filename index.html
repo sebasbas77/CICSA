@@ -64,7 +64,7 @@
 
         input {
             flex: 2 1 calc(100% - 180px);
-            padding: 8px;
+            padding: 6px;
             font-size: 0.9em;
             border: 1px solid var(--border-color);
             border-radius: 5px;
@@ -80,10 +80,11 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
+            position: relative;
         }
 
         button {
-            flex: 1 1 10%;
+            flex: 1 1 1%; /* Cambia el 45% a otro valor para ajustar el ancho */
             padding: 10px;
             font-size: 1em;
             color: #ffffff;
@@ -113,14 +114,14 @@
         }
 
         .copied {
-            position: absolute;
-            top: -25px;
-            right: 10px;
+            margin-top: 10px;
             background-color: var(--success-color);
             color: #ffffff;
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 0.9em;
+            text-align: center;
+            width: 100%;
         }
 
         @media only screen and (max-width: 600px) {
@@ -131,6 +132,8 @@
 
             input {
                 flex: 1 1 100%;
+                padding: 5px;
+                font-size: 0.8em;
             }
 
             .buttons {
@@ -145,6 +148,13 @@
 
             button:last-child {
                 margin-bottom: 0;
+            }
+
+            .copied {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 10px;
             }
         }
     </style>
@@ -217,6 +227,7 @@
             <div class="buttons">
                 <button type="button" onclick="copyText()">Copiar Texto</button>
                 <button type="button" onclick="generateText()">Generar Texto</button>
+                <div class="copied" id="copiedMessage" style="display: none;">Texto copiado</div>
             </div>
         </form>
         <div class="output" id="output"></div>
@@ -269,13 +280,10 @@
         }
 
         function showCopiedMessage() {
-            const outputElement = document.getElementById('output');
-            const copiedMessage = document.createElement('div');
-            copiedMessage.className = 'copied';
-            copiedMessage.innerText = 'Texto copiado';
-            outputElement.appendChild(copiedMessage);
+            const copiedMessage = document.getElementById('copiedMessage');
+            copiedMessage.style.display = 'block';
             setTimeout(() => {
-                copiedMessage.remove();
+                copiedMessage.style.display = 'none';
             }, 2000);
         }
 
@@ -312,3 +320,4 @@
 </body>
 
 </html>
+
