@@ -65,7 +65,7 @@
         }
 
         input {
-            flex: 2;
+            flex: 3;
             padding: 8px;
             font-size: 0.9em;
             border: 1px solid var(--border-color);
@@ -128,6 +128,23 @@
         }
 
         .copied.show {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .notification.show {
             display: block;
         }
     </style>
@@ -204,6 +221,7 @@
         </form>
         <div class="output" id="output"></div>
         <div class="copied" id="copiedMessage">Texto copiado</div>
+        <div class="notification" id="notification">Texto copiado al portapapeles</div>
     </div>
 
     <script>
@@ -277,6 +295,7 @@
             const outputElement = document.getElementById('output');
             navigator.clipboard.writeText(outputElement.innerText).then(() => {
                 showCopiedMessage();
+                showNotification();
             }, (err) => {
                 console.error('Error al copiar el texto: ', err);
             });
@@ -287,6 +306,14 @@
             copiedMessage.classList.add('show');
             setTimeout(() => {
                 copiedMessage.classList.remove('show');
+            }, 2000);
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
             }, 2000);
         }
 
