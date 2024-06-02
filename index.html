@@ -166,8 +166,8 @@
             </div>
             <button type="button" onclick="generateText()">Generar Texto</button>
             <button type="button" onclick="copyText()">Copiar Texto</button>
+            <div class="output" id="output"></div>
         </form>
-        <div class="output" id="output"></div>
     </div>
 
     <script>
@@ -213,7 +213,18 @@
             textArea.select();
             document.execCommand('copy');
             document.body.removeChild(textArea);
-            alert('Texto copiado al portapapeles.');
+
+            const copyAlert = document.createElement('div');
+            copyAlert.innerText = 'Texto copiado.';
+            copyAlert.style.backgroundColor = '#4CAF50';
+            copyAlert.style.color = 'white';
+            copyAlert.style.padding = '10px';
+            copyAlert.style.borderRadius = '5px';
+            copyAlert.style.marginTop = '10px';
+            document.getElementById('dataForm').appendChild(copyAlert);
+            setTimeout(() => {
+                copyAlert.remove();
+            }, 2000);
         }
 
         function getLocation() {
@@ -252,5 +263,3 @@
     </script>
 </body>
 </html>
-
-
