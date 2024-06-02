@@ -195,8 +195,9 @@
                 <input type="text" id="serie">
             </div>
             <div class="form-group">
-                <label for="metraje">METRAJE (metros)</label>
-                <input type="text" id="metraje">
+                <label for="metraje1">METRAJE (metros)</label>
+                <input type="text" id="metraje1">
+                <input type="text" id="metraje2" style="margin-left: 10px;">
             </div>
             <div class="form-group">
                 <label for="gancho">GANCHO TENSOR</label>
@@ -263,7 +264,7 @@
             const fields = [
                 'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
                 'puerto', 'precinto', 'latitud', 'longitud', 'serie',
-                'metraje', 'gancho', 'grapas', 'amarras10', 'amarras20'
+                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20'
             ];
             let isValid = true;
 
@@ -286,7 +287,7 @@
                 return acc;
             }, {});
 
-            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
+            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
             document.getElementById('output').innerText = template;
         }
