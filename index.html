@@ -32,7 +32,7 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 600px;
             padding: 20px;
             background-color: var(--container-bg);
             box-shadow: 0 0 10px var(--shadow-color);
@@ -63,9 +63,9 @@
         }
 
         input {
-            flex: 2 1 calc(100% - 500px);
+            flex: 2 1 calc(100% - 180px);
             padding: 8px;
-            font-size: 1.0em;
+            font-size: 0.9em;
             border: 1px solid var(--border-color);
             border-radius: 5px;
             width: 100%;
@@ -127,27 +127,6 @@
 
         .copied.show {
             display: block;
-        }
-
-        @media only screen and (max-width: 600px) {
-            label {
-                flex: 1 1 100%;
-                margin-bottom: 5px;
-            }
-
-            input {
-                flex: 1 1 100%;
-                margin-bottom: 10px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
-            button:first-child {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
@@ -228,7 +207,37 @@
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             getLocation();
+            adjustStyles();
+            window.addEventListener('resize', adjustStyles);
         });
+
+        function adjustStyles() {
+            const width = window.innerWidth;
+            const root = document.documentElement;
+            if (width <= 600) {
+                root.style.setProperty('--primary-color', '#007bff');
+                root.style.setProperty('--primary-hover', '#0056b3');
+                root.style.setProperty('--background-color', '#f0f0f0');
+                root.style.setProperty('--container-bg', '#ffffff');
+                root.style.setProperty('--text-color', '#333333');
+                root.style.setProperty('--error-color', 'red');
+                root.style.setProperty('--border-color', '#cccccc');
+                root.style.setProperty('--input-bg', '#f9f9f9');
+                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
+                root.style.setProperty('--success-color', '#28a745');
+            } else {
+                root.style.setProperty('--primary-color', '#007bff');
+                root.style.setProperty('--primary-hover', '#0056b3');
+                root.style.setProperty('--background-color', '#f0f0f0');
+                root.style.setProperty('--container-bg', '#ffffff');
+                root.style.setProperty('--text-color', '#333333');
+                root.style.setProperty('--error-color', 'red');
+                root.style.setProperty('--border-color', '#cccccc');
+                root.style.setProperty('--input-bg', '#f9f9f9');
+                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
+                root.style.setProperty('--success-color', '#28a745');
+            }
+        }
 
         function generateText() {
             const fields = [
@@ -312,4 +321,3 @@
 </body>
 
 </html>
-
