@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Texto GPON</title>
     <style>
         body {
-             font-family: 'Roboto Mono', monospace;
+            font-family: Arial, sans-serif;
             padding: 0;
             margin: 0;
             background-color: #f0f0f0;
@@ -166,6 +165,7 @@
                 <span class="error" id="amarras20Error"></span>
             </div>
             <button type="button" onclick="generateText()">Generar Texto</button>
+            <button type="button" onclick="copyText()">Copiar Texto</button>
         </form>
         <div class="output" id="output"></div>
     </div>
@@ -203,6 +203,17 @@
             const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPÓ ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
             document.getElementById('output').innerText = template;
+        }
+
+        function copyText() {
+            const outputElement = document.getElementById('output');
+            const textArea = document.createElement('textarea');
+            textArea.value = outputElement.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Texto copiado al portapapeles.');
         }
 
         function getLocation() {
