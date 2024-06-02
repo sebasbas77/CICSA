@@ -25,30 +25,27 @@
         }
         .form-group {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         label {
-            flex: 1 1 100%;
+            flex: 1 1 150px;
             margin-right: 10px;
             font-weight: bold;
             color: #555555;
-            text-align: left;
-            margin-bottom: 5px;
         }
         input {
-            flex: 1 1 calc(50% - 10px);
+            flex: 2 1 calc(100% - 180px);
             padding: 10px;
             font-size: 1em;
             border: 1px solid #cccccc;
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 10px;
         }
         button {
-            flex: 1 1 100%;
+            width: 100%;
             padding: 10px;
             font-size: 1em;
             color: #ffffff;
@@ -73,16 +70,24 @@
             color: #333333;
         }
         .error {
-            display: none;
             color: red;
             font-size: 0.9em;
             margin-top: -10px;
             margin-bottom: 10px;
             width: 100%;
-            text-align: left;
         }
-        .error.active {
-            display: block;
+
+        @media only screen and (max-width: 600px) {
+            label {
+                flex: 1 1 100%;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            input {
+                flex: 1 1 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -91,79 +96,79 @@
         <h1>Generador de Texto GPON</h1>
         <form id="dataForm">
             <div class="form-group">
-                <label for="instalacion">INSTALACIÓN GPON:</label>
-                <input type="text" id="instalacion" required>
-                <span class="error" id="instalacionError">Este campo es obligatorio.</span>
+                <label for="instalacion">INSTALACIÓN GPON</label>
+                <input type="text" id="instalacion">
+                <span class="error" id="instalacionError"></span>
             </div>
             <div class="form-group">
-                <label for="cuadrilla">CUADRILLA:</label>
-                <input type="text" id="cuadrilla" required>
-                <span class="error" id="cuadrillaError">Este campo es obligatorio.</span>
+                <label for="cuadrilla">CUADRILLA</label>
+                <input type="text" id="cuadrilla">
+                <span class="error" id="cuadrillaError"></span>
             </div>
             <div class="form-group">
-                <label for="potencia">Potencia TX (dBm):</label>
-                <input type="text" id="potencia" required>
-                <span class="error" id="potenciaError">Este campo es obligatorio.</span>
+                <label for="potencia">Potencia TX (dBm)</label>
+                <input type="text" id="potencia">
+                <span class="error" id="potenciaError"></span>
             </div>
             <div class="form-group">
-                <label for="cluster">CLÚSTER:</label>
-                <input type="text" id="cluster" required>
-                <span class="error" id="clusterError">Este campo es obligatorio.</span>
+                <label for="cluster">CLÚSTER</label>
+                <input type="text" id="cluster">
+                <span class="error" id="clusterError"></span>
             </div>
             <div class="form-group">
-                <label for="nap">NAP:</label>
-                <input type="text" id="nap" required>
-                <span class="error" id="napError">Este campo es obligatorio.</span>
+                <label for="nap">NAP</label>
+                <input type="text" id="nap">
+                <span class="error" id="napError"></span>
             </div>
             <div class="form-group">
-                <label for="puerto">PUERTO:</label>
-                <input type="text" id="puerto" required>
-                <span class="error" id="puertoError">Este campo es obligatorio.</span>
+                <label for="puerto">PUERTO</label>
+                <input type="text" id="puerto">
+                <span class="error" id="puertoError"></span>
             </div>
             <div class="form-group">
-                <label for="precinto">PRECINTO:</label>
-                <input type="text" id="precinto" required>
-                <span class="error" id="precintoError">Este campo es obligatorio.</span>
+                <label for="precinto">PRECINTO</label>
+                <input type="text" id="precinto">
+                <span class="error" id="precintoError"></span>
             </div>
             <div class="form-group">
-                <label for="latitud">LATITUD:</label>
+                <label for="latitud">LATITUD</label>
                 <input type="text" id="latitud" readonly>
-                <span class="error" id="latitudError">Este campo es obligatorio.</span>
+                <span class="error" id="latitudError"></span>
             </div>
             <div class="form-group">
-                <label for="longitud">LONGITUD:</label>
+                <label for="longitud">LONGITUD</label>
                 <input type="text" id="longitud" readonly>
-                <span class="error" id="longitudError">Este campo es obligatorio.</span>
+                <span class="error" id="longitudError"></span>
             </div>
             <div class="form-group">
-                <label for="serie">SERIE EQUIPÓ ONT:</label>
-                <input type="text" id="serie" required>
-                <span class="error" id="serieError">Este campo es obligatorio.</span>
+                <label for="serie">SERIE EQUIPÓ ONT</label>
+                <input type="text" id="serie">
+                <span class="error" id="serieError"></span>
             </div>
             <div class="form-group">
-                <label for="metraje">METRAJE (metros):</label>
-                <input type="text" id="metraje" required>
-                <span class="error" id="metrajeError">Este campo es obligatorio.</span>
+                <label for="metraje">METRAJE (metros)</label>
+                <input type="text" id="metraje">
+                <span class="error" id="metrajeError"></span>
             </div>
             <div class="form-group">
-                <label for="gancho">GANCHO TENSOR:</label>
-                <input type="text" id="gancho" required>
-                <span class="error" id="ganchoError">Este campo es obligatorio.</span>
+                <label for="gancho">GANCHO TENSOR</label>
+                <input type="text" id="gancho">
+                <span class="error" id="ganchoError"></span>
             </div>
             <div class="form-group">
-                <label for="grapas">GRAPAS:</label>
-                <input type="text" id="grapas" required>
-                <span class="error" id="grapasError">Este campo es obligatorio.</span>
+                <label for="grapas">GRAPAS</label>
+                <input type="text" id="grapas">
+                <span class="error" id="grapasError"></span>
             </div>
             <div class="form-group">
-                <label for="amarras10">AMARRAS 10:</label>
-                <input type="text" id="amarras10" required>
-                <span class="error" id="amarras10Error">Este campo es obligatorio.</span>
+                <label for="amarras10">AMARRAS 10</label>
+                <input type="text" id="amarras10">
+                <span class="error" id="amarras10Error"></span>
             </div>
             <div class="form-group">
-                <label for="amarras20">AMARRAS 20:</label>
-                <input type="text" id="amarras20" required>
-                <span class="error" id="amarras20Error">Este campo es obligatorio.</span>
+                <label for="amarras20">AMARRAS 20</label>
+                <input type="text" id="amarras20">
+                <span class="error" id="amarras20Error"></span>
             </div>
             <button type="button" onclick="generateText()">Generar Texto</button>
         </form>
@@ -183,11 +188,12 @@
                 const inputElement = document.getElementById(field);
                 const errorElement = document.getElementById(`${field}Error`);
                 if (!inputElement.value.trim()) {
-                    errorElement.classList.add('active');
+                    inputElement.style.borderColor = 'red'; // Resalta el campo en rojo
                     isValid = false;
                 } else {
-                    errorElement.classList.remove('active');
+                    inputElement.style.borderColor = ''; // Restaura el borde a su color original
                 }
+                errorElement.innerText = ""; // Limpia cualquier mensaje de error anterior
             });
 
             if (!isValid) {
