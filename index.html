@@ -17,9 +17,6 @@
             background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            grid-gap: 20px;
         }
         h1 {
             text-align: center;
@@ -28,28 +25,30 @@
         }
         .form-group {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             margin-bottom: 15px;
-            flex-wrap: wrap;
         }
         label {
-            flex: 1 1 120px;
+            flex: 1 1 100%;
             margin-right: 10px;
             font-weight: bold;
             color: #555555;
-            text-align: right;
+            text-align: left;
+            margin-bottom: 5px;
         }
         input {
-            flex: 2 1 60%;
+            flex: 1 1 calc(50% - 10px);
             padding: 10px;
             font-size: 1em;
             border: 1px solid #cccccc;
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
+            margin-bottom: 10px;
         }
         button {
-            width: 100%;
+            flex: 1 1 100%;
             padding: 10px;
             font-size: 1em;
             color: #ffffff;
@@ -72,14 +71,18 @@
             border: 1px solid #e0e0e0;
             font-size: 0.9em;
             color: #333333;
-            grid-column: span 2;
         }
         .error {
+            display: none;
             color: red;
             font-size: 0.9em;
             margin-top: -10px;
             margin-bottom: 10px;
             width: 100%;
+            text-align: left;
+        }
+        .error.active {
+            display: block;
         }
     </style>
 </head>
@@ -90,77 +93,77 @@
             <div class="form-group">
                 <label for="instalacion">INSTALACIÓN GPON:</label>
                 <input type="text" id="instalacion" required>
-                <span class="error" id="instalacionError"></span>
+                <span class="error" id="instalacionError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="cuadrilla">CUADRILLA:</label>
                 <input type="text" id="cuadrilla" required>
-                <span class="error" id="cuadrillaError"></span>
+                <span class="error" id="cuadrillaError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="potencia">Potencia TX (dBm):</label>
                 <input type="text" id="potencia" required>
-                <span class="error" id="potenciaError"></span>
+                <span class="error" id="potenciaError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="cluster">CLÚSTER:</label>
                 <input type="text" id="cluster" required>
-                <span class="error" id="clusterError"></span>
+                <span class="error" id="clusterError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="nap">NAP:</label>
                 <input type="text" id="nap" required>
-                <span class="error" id="napError"></span>
+                <span class="error" id="napError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="puerto">PUERTO:</label>
                 <input type="text" id="puerto" required>
-                <span class="error" id="puertoError"></span>
+                <span class="error" id="puertoError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="precinto">PRECINTO:</label>
                 <input type="text" id="precinto" required>
-                <span class="error" id="precintoError"></span>
+                <span class="error" id="precintoError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="latitud">LATITUD:</label>
                 <input type="text" id="latitud" readonly>
-                <span class="error" id="latitudError"></span>
+                <span class="error" id="latitudError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="longitud">LONGITUD:</label>
                 <input type="text" id="longitud" readonly>
-                <span class="error" id="longitudError"></span>
+                <span class="error" id="longitudError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="serie">SERIE EQUIPÓ ONT:</label>
                 <input type="text" id="serie" required>
-                <span class="error" id="serieError"></span>
+                <span class="error" id="serieError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="metraje">METRAJE (metros):</label>
                 <input type="text" id="metraje" required>
-                <span class="error" id="metrajeError"></span>
+                <span class="error" id="metrajeError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="gancho">GANCHO TENSOR:</label>
                 <input type="text" id="gancho" required>
-                <span class="error" id="ganchoError"></span>
+                <span class="error" id="ganchoError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="grapas">GRAPAS:</label>
                 <input type="text" id="grapas" required>
-                <span class="error" id="grapasError"></span>
+                <span class="error" id="grapasError">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="amarras10">AMARRAS 10:</label>
                 <input type="text" id="amarras10" required>
-                <span class="error" id="amarras10Error"></span>
+                <span class="error" id="amarras10Error">Este campo es obligatorio.</span>
             </div>
             <div class="form-group">
                 <label for="amarras20">AMARRAS 20:</label>
                 <input type="text" id="amarras20" required>
-                <span class="error" id="amarras20Error"></span>
+                <span class="error" id="amarras20Error">Este campo es obligatorio.</span>
             </div>
             <button type="button" onclick="generateText()">Generar Texto</button>
         </form>
@@ -180,10 +183,10 @@
                 const inputElement = document.getElementById(field);
                 const errorElement = document.getElementById(`${field}Error`);
                 if (!inputElement.value.trim()) {
-                    errorElement.innerText = "Este campo es obligatorio.";
+                    errorElement.classList.add('active');
                     isValid = false;
                 } else {
-                    errorElement.innerText = "";
+                    errorElement.classList.remove('active');
                 }
             });
 
