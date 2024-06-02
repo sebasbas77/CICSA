@@ -12,8 +12,7 @@
             background-color: #f0f0f0;
         }
         .container {
-            max-width: 500px;
-            margin: 0 auto;
+            max-width: 100%;
             padding: 20px;
             background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -28,16 +27,16 @@
             display: flex;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         label {
-            flex: 1;
+            flex: 1 1 120px;
             margin-right: 10px;
             font-weight: bold;
             color: #555555;
-            min-width: 120px;
         }
         input {
-            flex: 2;
+            flex: 2 1 60%;
             padding: 10px;
             font-size: 1em;
             border: 1px solid #cccccc;
@@ -70,6 +69,13 @@
             font-size: 0.9em;
             color: #333333;
         }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -79,62 +85,77 @@
             <div class="form-group">
                 <label for="instalacion">INSTALACIÓN GPON</label>
                 <input type="text" id="instalacion" required>
+                <span class="error" id="instalacionError"></span>
             </div>
             <div class="form-group">
                 <label for="cuadrilla">CUADRILLA</label>
                 <input type="text" id="cuadrilla" required>
+                <span class="error" id="cuadrillaError"></span>
             </div>
             <div class="form-group">
                 <label for="potencia">Potencia TX (dBm)</label>
                 <input type="text" id="potencia" required>
+                <span class="error" id="potenciaError"></span>
             </div>
             <div class="form-group">
                 <label for="cluster">CLÚSTER</label>
                 <input type="text" id="cluster" required>
+                <span class="error" id="clusterError"></span>
             </div>
             <div class="form-group">
                 <label for="nap">NAP</label>
                 <input type="text" id="nap" required>
+                <span class="error" id="napError"></span>
             </div>
             <div class="form-group">
                 <label for="puerto">PUERTO</label>
                 <input type="text" id="puerto" required>
+                <span class="error" id="puertoError"></span>
             </div>
             <div class="form-group">
                 <label for="precinto">PRECINTO</label>
                 <input type="text" id="precinto" required>
+                <span class="error" id="precintoError"></span>
             </div>
             <div class="form-group">
                 <label for="latitud">LATITUD</label>
                 <input type="text" id="latitud" readonly>
+                <span class="error" id="latitudError"></span>
             </div>
             <div class="form-group">
                 <label for="longitud">LONGITUD</label>
                 <input type="text" id="longitud" readonly>
+                <span class="error" id="longitudError"></span>
             </div>
             <div class="form-group">
                 <label for="serie">SERIE EQUIPÓ ONT</label>
                 <input type="text" id="serie" required>
+                <span class="error" id="serieError"></span>
             </div>
             <div class="form-group">
                 <label for="metraje">METRAJE (metros)</label>
                 <input type="text" id="metraje" required>
+                <span class="error" id="metrajeError"></span>
             </div>
             <div class="form-group">
                 <label for="gancho">GANCHO TENSOR</label>
                 <input type="text" id="gancho" required>
+                <span class="error" id="ganchoError"></span>
             </div>
             <div class="form-group">
                 <label for="grapas">GRAPAS</label>
                 <input type="text" id="grapas" required>
+                <span class="error" id="grapasError"></span>
             </div>
             <div class="form-group">
                 <label for="amarras10">AMARRAS 10</label>
                 <input type="text" id="amarras10" required>
+                <span class="error" id="amarras10Error"></span>
             </div>
             <div class="form-group">
                 <label for="amarras20">AMARRAS 20</label>
                 <input type="text" id="amarras20" required>
+                <span class="error" id="amarras20Error"></span>
             </div>
             <button type="button" onclick="generateText()">Generar Texto</button>
         </form>
@@ -143,23 +164,32 @@
 
     <script>
         function generateText() {
-            const data = {
-                instalacion: document.getElementById('instalacion').value,
-                cuadrilla: document.getElementById('cuadrilla').value,
-                potencia: document.getElementById('potencia').value,
-                cluster: document.getElementById('cluster').value,
-                nap: document.getElementById('nap').value,
-                puerto: document.getElementById('puerto').value,
-                precinto: document.getElementById('precinto').value,
-                latitud: document.getElementById('latitud').value,
-                longitud: document.getElementById('longitud').value,
-                serie: document.getElementById('serie').value,
-                metraje: document.getElementById('metraje').value,
-                gancho: document.getElementById('gancho').value,
-                grapas: document.getElementById('grapas').value,
-                amarras10: document.getElementById('amarras10').value,
-                amarras20: document.getElementById('amarras20').value
-            };
+            const fields = [
+                'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap', 
+                'puerto', 'precinto', 'latitud', 'longitud', 'serie', 
+                'metraje', 'gancho', 'grapas', 'amarras10', 'amarras20'
+            ];
+            let isValid = true;
+
+            fields.forEach(field => {
+                const inputElement = document.getElementById(field);
+                const errorElement = document.getElementById(`${field}Error`);
+                if (!inputElement.value.trim()) {
+                    errorElement.innerText = "Este campo es obligatorio.";
+                    isValid = false;
+                } else {
+                    errorElement.innerText = "";
+                }
+            });
+
+            if (!isValid) {
+                return;
+            }
+
+            const data = {};
+            fields.forEach(field => {
+                data[field] = document.getElementById(field).value.trim();
+            });
 
             const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPÓ ONT: ${data.serie}, METRAJE: ${data.metraje} metros, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
@@ -202,7 +232,3 @@
     </script>
 </body>
 </html>
-
-
-
-
