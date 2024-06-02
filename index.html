@@ -64,7 +64,7 @@
             word-wrap: break-word;
         }
 
-        input {
+        input, textarea {
             flex: 3;
             padding: 8px;
             font-size: 0.9em;
@@ -74,8 +74,13 @@
             box-sizing: border-box;
         }
 
-        input.error {
+        input.error, textarea.error {
             border-color: var(--error-color);
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
         }
 
         .buttons {
@@ -215,6 +220,10 @@
                 <label for="amarras20">AMARRAS 20</label>
                 <input type="text" id="amarras20">
             </div>
+            <div class="form-group">
+                <label for="observacion">OBSERVACIÓN</label>
+                <textarea id="observacion"></textarea>
+            </div>
             <div class="buttons">
                 <button type="button" onclick="generateText()">Generar Texto</button>
                 <button type="button" onclick="copyText()">Copiar Texto</button>
@@ -264,13 +273,13 @@
             const fields = [
                 'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
                 'puerto', 'precinto', 'latitud', 'longitud', 'serie',
-                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20'
+                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20', 'observacion'
             ];
             let isValid = true;
 
             fields.forEach(field => {
                 const inputElement = document.getElementById(field);
-                if (!inputElement.value.trim()) {
+                if (field !== 'observacion' && !inputElement.value.trim()) {
                     inputElement.classList.add('error');
                     isValid = false;
                 } else {
@@ -287,7 +296,11 @@
                 return acc;
             }, {});
 
-            const template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
+            let template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
+
+            if (data.observacion) {
+                template += ` OBSERVACIÓN: ${data.observacion}`;
+            }
 
             document.getElementById('output').innerText = template;
         }
