@@ -17,6 +17,9 @@
             background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
         }
         h1 {
             text-align: center;
@@ -69,6 +72,7 @@
             border: 1px solid #e0e0e0;
             font-size: 0.9em;
             color: #333333;
+            grid-column: span 2;
         }
         .error {
             color: red;
