@@ -30,18 +30,19 @@
             flex-wrap: wrap;
         }
         label {
-            flex: 1 1 100%;
+            flex: 1 1 120px;
             margin-right: 10px;
             font-weight: bold;
             color: #555555;
-            margin-bottom: 5px;
+            text-align: right;
         }
         input {
-            flex: 1 1 calc(100% - 120px);
+            flex: 2 1 60%;
             padding: 10px;
             font-size: 1em;
             border: 1px solid #cccccc;
             border-radius: 5px;
+            width: 100%;
             box-sizing: border-box;
         }
         button {
@@ -83,77 +84,77 @@
         <h1>Generador de Texto GPON</h1>
         <form id="dataForm">
             <div class="form-group">
-                <label for="instalacion">INSTALACIÓN GPON</label>
+                <label for="instalacion">INSTALACIÓN GPON:</label>
                 <input type="text" id="instalacion" required>
                 <span class="error" id="instalacionError"></span>
             </div>
             <div class="form-group">
-                <label for="cuadrilla">CUADRILLA</label>
+                <label for="cuadrilla">CUADRILLA:</label>
                 <input type="text" id="cuadrilla" required>
                 <span class="error" id="cuadrillaError"></span>
             </div>
             <div class="form-group">
-                <label for="potencia">Potencia TX (dBm)</label>
+                <label for="potencia">Potencia TX (dBm):</label>
                 <input type="text" id="potencia" required>
                 <span class="error" id="potenciaError"></span>
             </div>
             <div class="form-group">
-                <label for="cluster">CLÚSTER</label>
+                <label for="cluster">CLÚSTER:</label>
                 <input type="text" id="cluster" required>
                 <span class="error" id="clusterError"></span>
             </div>
             <div class="form-group">
-                <label for="nap">NAP</label>
+                <label for="nap">NAP:</label>
                 <input type="text" id="nap" required>
                 <span class="error" id="napError"></span>
             </div>
             <div class="form-group">
-                <label for="puerto">PUERTO</label>
+                <label for="puerto">PUERTO:</label>
                 <input type="text" id="puerto" required>
                 <span class="error" id="puertoError"></span>
             </div>
             <div class="form-group">
-                <label for="precinto">PRECINTO</label>
+                <label for="precinto">PRECINTO:</label>
                 <input type="text" id="precinto" required>
                 <span class="error" id="precintoError"></span>
             </div>
             <div class="form-group">
-                <label for="latitud">LATITUD</label>
+                <label for="latitud">LATITUD:</label>
                 <input type="text" id="latitud" readonly>
                 <span class="error" id="latitudError"></span>
             </div>
             <div class="form-group">
-                <label for="longitud">LONGITUD</label>
+                <label for="longitud">LONGITUD:</label>
                 <input type="text" id="longitud" readonly>
                 <span class="error" id="longitudError"></span>
             </div>
             <div class="form-group">
-                <label for="serie">SERIE EQUIPÓ ONT</label>
+                <label for="serie">SERIE EQUIPÓ ONT:</label>
                 <input type="text" id="serie" required>
                 <span class="error" id="serieError"></span>
             </div>
             <div class="form-group">
-                <label for="metraje">METRAJE (metros)</label>
+                <label for="metraje">METRAJE (metros):</label>
                 <input type="text" id="metraje" required>
                 <span class="error" id="metrajeError"></span>
             </div>
             <div class="form-group">
-                <label for="gancho">GANCHO TENSOR</label>
+                <label for="gancho">GANCHO TENSOR:</label>
                 <input type="text" id="gancho" required>
                 <span class="error" id="ganchoError"></span>
             </div>
             <div class="form-group">
-                <label for="grapas">GRAPAS</label>
+                <label for="grapas">GRAPAS:</label>
                 <input type="text" id="grapas" required>
                 <span class="error" id="grapasError"></span>
             </div>
             <div class="form-group">
-                <label for="amarras10">AMARRAS 10</label>
+                <label for="amarras10">AMARRAS 10:</label>
                 <input type="text" id="amarras10" required>
                 <span class="error" id="amarras10Error"></span>
             </div>
             <div class="form-group">
-                <label for="amarras20">AMARRAS 20</label>
+                <label for="amarras20">AMARRAS 20:</label>
                 <input type="text" id="amarras20" required>
                 <span class="error" id="amarras20Error"></span>
             </div>
