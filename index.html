@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -64,7 +65,8 @@
             word-wrap: break-word;
         }
 
-        input, textarea {
+        input,
+        textarea {
             flex: 3;
             padding: 8px;
             font-size: 0.9em;
@@ -74,13 +76,15 @@
             box-sizing: border-box;
         }
 
-        input.error, textarea.error {
+        input.error,
+        textarea.error {
             border-color: var(--error-color);
         }
 
         textarea {
             resize: vertical;
             height: 100px;
+            font-family: Arial, sans-serif;
         }
 
         .buttons {
@@ -151,6 +155,12 @@
 
         .notification.show {
             display: block;
+        }
+
+        .address {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--text-color);
         }
     </style>
 </head>
@@ -230,6 +240,7 @@
             </div>
         </form>
         <div class="output" id="output"></div>
+        <div class="address" id="address"></div>
         <div class="copied" id="copiedMessage">Texto copiado</div>
         <div class="notification" id="notification">Texto copiado al portapapeles</div>
     </div>
@@ -273,13 +284,13 @@
             const fields = [
                 'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
                 'puerto', 'precinto', 'latitud', 'longitud', 'serie',
-                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20', 'observacion'
+                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20'
             ];
             let isValid = true;
 
             fields.forEach(field => {
                 const inputElement = document.getElementById(field);
-                if (field !== 'observacion' && !inputElement.value.trim()) {
+                if (!inputElement.value.trim()) {
                     inputElement.classList.add('error');
                     isValid = false;
                 } else {
@@ -298,8 +309,9 @@
 
             let template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
 
-            if (data.observacion) {
-                template += ` OBSERVACIÓN: ${data.observacion}`;
+            const observacion = document.getElementById('observacion').value.trim();
+            if (observacion) {
+                template += `\n\n${observacion}`;
             }
 
             document.getElementById('output').innerText = template;
@@ -340,8 +352,17 @@
         }
 
         function showPosition(position) {
-            document.getElementById('latitud').value = position.coords.latitude;
-            document.getElementById('longitud').value = position.coords.longitude;
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('latitud').value = lat;
+            document.getElementById('longitud').value = lon;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name;
+                    document.getElementById('address').innerText = `Dirección: ${address}`;
+                })
+                .catch(error => console.error('Error al obtener la dirección:', error));
         }
 
         function showError(error) {
