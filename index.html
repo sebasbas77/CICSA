@@ -32,7 +32,7 @@
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 400px;
             padding: 20px;
             background-color: var(--container-bg);
             box-shadow: 0 0 10px var(--shadow-color);
@@ -64,14 +64,12 @@
 
         input {
             flex: 2 1 calc(100% - 180px);
-            padding: 6px;
-            font-size: 0.9em;
+            padding: 8px;
+            font-size: 1.0em;
             border: 1px solid var(--border-color);
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
-            height: 40px; /* Modificar la altura */
-            max-width: 250px; /* Modificar el ancho */
         }
 
         input.error {
@@ -82,11 +80,10 @@
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            position: relative;
         }
 
         button {
-            flex: 1 1 auto;
+            flex: 1;
             padding: 10px;
             font-size: 1em;
             color: #ffffff;
@@ -95,16 +92,11 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
-            margin-right: 80px;
-            margin-left: 80px;
             transition: background-color 0.3s ease;
-            white-space: nowrap;
-            height: 50px; /* Modificar la altura */
-            max-width: 90px; /* Modificar el ancho */
         }
 
-        button:last-child {
-            margin-right: 0;
+        button:first-child {
+            margin-right: 10px;
         }
 
         button:hover {
@@ -119,20 +111,22 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #e0e0e0;
-            font-size: 1.0em;
+            font-size: 0.9em;
             color: var(--text-color);
             position: relative;
         }
 
         .copied {
-            margin-top: 10px;
-            background-color: var(--success-color);
-            color: #ffffff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 1.0em;
-            text-align: center;
-            width:50%;
+            display: none;
+            position: absolute;
+            top: -25px;
+            right: 10px;
+            font-size: 0.9em;
+            color: var(--success-color);
+        }
+
+        .copied.show {
+            display: block;
         }
 
         @media only screen and (max-width: 600px) {
@@ -143,31 +137,16 @@
 
             input {
                 flex: 1 1 100%;
-                padding: 5px;
-                font-size: 1.0em;
+                margin-bottom: 10px;
             }
 
             .buttons {
                 flex-direction: column;
             }
 
-            button {
-                flex: 1 1 auto;
+            button:first-child {
                 margin-right: 0;
                 margin-bottom: 10px;
-                max-width: 100%; /* Ajuste para móviles */
-                height: auto; /* Ajuste para móviles */
-            }
-
-            button:last-child {
-                margin-bottom: 0;
-            }
-
-            .copied {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin-top: 10px;
             }
         }
     </style>
@@ -238,12 +217,12 @@
                 <input type="text" id="amarras20">
             </div>
             <div class="buttons">
-                <button type="button" onclick="copyText()">Copiar Texto</button>
                 <button type="button" onclick="generateText()">Generar Texto</button>
-                <div class="copied" id="copiedMessage" style="display: none;">Texto copiado</div>
+                <button type="button" onclick="copyText()">Copiar Texto</button>
             </div>
         </form>
         <div class="output" id="output"></div>
+        <div class="copied" id="copiedMessage">Texto copiado</div>
     </div>
 
     <script>
@@ -294,9 +273,9 @@
 
         function showCopiedMessage() {
             const copiedMessage = document.getElementById('copiedMessage');
-            copiedMessage.style.display = 'block';
+            copiedMessage.classList.add('show');
             setTimeout(() => {
-                copiedMessage.style.display = 'none';
+                copiedMessage.classList.remove('show');
             }, 2000);
         }
 
