@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección 2</title>
+    <title>PUNTOS CABLEADOS GPON</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -35,6 +35,13 @@
             border-radius: 8px;
             margin: 20px auto;
             box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--text-color);
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -142,16 +149,18 @@
 
 <body>
     <div class="container">
-        <div class="form-group">
-            <label for="numIptv">Número IPTV</label>
-            <select id="numIptv" onchange="generateFields()">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-        </div>
-        <div id="iptvFields"></div>
+        <h1>PUNTOS CABLEADOS GPON</h1>
+        <form id="section3Form">
+            <div class="form-group">
+                <label for="numPuntos">NUM PUNTOS CABLEADOS</label>
+                <select id="numPuntos" onchange="generateFields()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+            <div id="puntosFields"></div>
+        </form>
         <div class="buttons">
             <button type="button" onclick="generateText()">Generar Texto</button>
             <button type="button" onclick="copyText()">Copiar Texto</button>
@@ -167,123 +176,105 @@
         });
 
         function generateFields() {
-            const numIptv = document.getElementById('numIptv').value;
-            const iptvFields = document.getElementById('iptvFields');
-            iptvFields.innerHTML = '';
+            const numPuntos = document.getElementById('numPuntos').value;
+            const puntosFields = document.getElementById('puntosFields');
+            puntosFields.innerHTML = '';
 
-            if (numIptv == 0) {
-                iptvFields.innerHTML += `
+            if (numPuntos == 0) {
+                puntosFields.innerHTML += `
                     <div class="form-group">
-                        <label for="atiende">ATIENDE</label>
-                        <input type="text" id="atiende">
+                        <label for="opcion0">Opción</label>
+                        <select id="opcion0" onchange="toggleReasonField()">
+                            <option value="1">NO INCLUYE</option>
+                            <option value="2">CLIENTE NO DESEA PUNTOS CABLEADOS</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="operador">OPERADOR</label>
-                        <input type="text" id="operador">
+                    <div class="form-group" id="reasonField" style="display: none;">
+                        <label for="razon">Razón</label>
+                        <input type="text" id="razon" placeholder="Ingrese la razón">
                     </div>
                 `;
             } else {
-                for (let i = 0; i < numIptv; i++) {
-                    iptvFields.innerHTML += `
+                for (let i = 1; i <= numPuntos; i++) {
+                    puntosFields.innerHTML += `
                         <div class="form-group">
-                            <label for="decodificador${i}">DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}</label>
-                            <input type="text" id="decodificador${i}">
+                            <label>MATERIAL PUNTO CABLEADO ${i}</label>
                         </div>
                         <div class="form-group">
-                            <label for="materialTv${i}">MATERIAL TV</label>
-                            <input type="text" id="materialTv${i}">
+                            <label for="cableUtp${i}">Cable UTP Cat5e (metros)</label>
+                            <input type="text" id="cableUtp${i}" placeholder="Metros">
                         </div>
                         <div class="form-group">
-                            <label for="datoUtp${i}">UTP</label>
-                            <input type="text" id="datoUtp${i}">
+                            <label for="conectoresRj45${i}">Conectores RJ45</label>
+                            <input type="text" id="conectoresRj45${i}" placeholder="Unidades">
                         </div>
                         <div class="form-group">
-                            <label for="datoRj45${i}">RJ45</label>
-                            <input type="text" id="datoRj45${i}">
+                            <label for="cableAdicionalUtp${i}">Cable UTP Cat5E Adicional (metros)</label>
+                            <input type="text" id="cableAdicionalUtp${i}1" placeholder="Metros adicionales">
+                            <input type="text" id="cableAdicionalUtp${i}2" placeholder="Ubicación">
                         </div>
                         <div class="form-group">
-                            <label for="datoGrapas${i}">GRAPAS</label>
-                            <input type="text" id="datoGrapas${i}">
-                        </div>
-                        <div class="form-group">
-                            <label for="datoControles${i}">CONTROLES</label>
-                            <input type="text" id="datoControles${i}">
+                            <label for="grapas${i}">GRAPAS</label>
+                            <input type="text" id="grapas${i}" placeholder="Cuadradas">
                         </div>
                     `;
                 }
-                iptvFields.innerHTML += `
-                    <div class="form-group">
-                        <label for="atiende">ATIENDE</label>
-                        <input type="text" id="atiende">
-                    </div>
-                    <div class="form-group">
-                        <label for="operador">OPERADOR</label>
-                        <input type="text" id="operador">
-                    </div>
-                `;
+            }
+        }
+
+        function toggleReasonField() {
+            const opcion = document.getElementById('opcion0').value;
+            const reasonField = document.getElementById('reasonField');
+            if (opcion == 2) {
+                reasonField.style.display = 'flex';
+            } else {
+                reasonField.style.display = 'none';
             }
         }
 
         function generateText() {
-            const numIptv = document.getElementById('numIptv').value;
+            const numPuntos = document.getElementById('numPuntos').value;
             let template = '';
             let isValid = true;
 
-            if (numIptv == 0) {
-                const atiende = document.getElementById('atiende').value.trim();
-                const operador = document.getElementById('operador').value.trim();
-
-                if (!atiende || !operador) {
-                    isValid = false;
-                    if (!atiende) document.getElementById('atiende').classList.add('error');
-                    if (!operador) document.getElementById('operador').classList.add('error');
-                } else {
-                    document.getElementById('atiende').classList.remove('error');
-                    document.getElementById('operador').classList.remove('error');
-
-                    template += `ATIENDE: ${atiende}, OPERADOR: ${operador}, Servicio operativo en equipos del cliente, navegación en niveles correctos.`;
-                }
-            } else {
-                for (let i = 0; i < numIptv; i++) {
-                    const decodificador = document.getElementById(`decodificador${i}`).value.trim();
-                    const materialTv = document.getElementById(`materialTv${i}`).value.trim();
-                    const datoUtp = document.getElementById(`datoUtp${i}`).value.trim();
-                    const datoRj45 = document.getElementById(`datoRj45${i}`).value.trim();
-                    const datoGrapas = document.getElementById(`datoGrapas${i}`).value.trim();
-                    const datoControles = document.getElementById(`datoControles${i}`).value.trim();
-
-                    if (!decodificador || !materialTv || !datoUtp || !datoRj45 || !datoGrapas || !datoControles) {
+            if (numPuntos == 0) {
+                const opcion0 = document.getElementById('opcion0').value;
+                if (opcion0 == 1) {
+                    template = 'NO INCLUYE PUNTOS CABLEADOS';
+                } else if (opcion0 == 2) {
+                    const razon = document.getElementById('razon').value.trim();
+                    if (!razon) {
                         isValid = false;
-                        if (!decodificador) document.getElementById(`decodificador${i}`).classList.add('error');
-                        if (!materialTv) document.getElementById(`materialTv${i}`).classList.add('error');
-                        if (!datoUtp) document.getElementById(`datoUtp${i}`).classList.add('error');
-                        if (!datoRj45) document.getElementById(`datoRj45${i}`).classList.add('error');
-                        if (!datoGrapas) document.getElementById(`datoGrapas${i}`).classList.add('error');
-                        if (!datoControles) document.getElementById(`datoControles${i}`).classList.add('error');
+                        document.getElementById('razon').classList.add('error');
                     } else {
-                        document.getElementById(`decodificador${i}`).classList.remove('error');
-                        document.getElementById(`materialTv${i}`).classList.remove('error');
-                        document.getElementById(`datoUtp${i}`).classList.remove('error');
-                        document.getElementById(`datoRj45${i}`).classList.remove('error');
-                        document.getElementById(`datoGrapas${i}`).classList.remove('error');
-                        document.getElementById(`datoControles${i}`).classList.remove('error');
-
-                        template += `DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}: ${decodificador}, MATERIAL TV, ${datoUtp} UTP, ${datoRj45} RJ45, ${datoGrapas} GRAPAS, ${datoControles} CONTROLES, `;
+                        document.getElementById('razon').classList.remove('error');
+                        template = `Cliente no desea puntos cableados, ${razon}`;
                     }
                 }
+            } else {
+                for (let i = 1; i <= numPuntos; i++) {
+                    const cableUtp = document.getElementById(`cableUtp${i}`).value.trim();
+                    const conectoresRj45 = document.getElementById(`conectoresRj45${i}`).value.trim();
+                    const cableAdicionalUtp1 = document.getElementById(`cableAdicionalUtp${i}1`).value.trim();
+                    const cableAdicionalUtp2 = document.getElementById(`cableAdicionalUtp${i}2`).value.trim();
+                    const grapas = document.getElementById(`grapas${i}`).value.trim();
 
-                const atiende = document.getElementById('atiende').value.trim();
-                const operador = document.getElementById('operador').value.trim();
+                    if (!cableUtp || !conectoresRj45 || !cableAdicionalUtp1 || !cableAdicionalUtp2 || !grapas) {
+                        isValid = false;
+                        if (!cableUtp) document.getElementById(`cableUtp${i}`).classList.add('error');
+                        if (!conectoresRj45) document.getElementById(`conectoresRj45${i}`).classList.add('error');
+                        if (!cableAdicionalUtp1) document.getElementById(`cableAdicionalUtp${i}1`).classList.add('error');
+                        if (!cableAdicionalUtp2) document.getElementById(`cableAdicionalUtp${i}2`).classList.add('error');
+                        if (!grapas) document.getElementById(`grapas${i}`).classList.add('error');
+                    } else {
+                        document.getElementById(`cableUtp${i}`).classList.remove('error');
+                        document.getElementById(`conectoresRj45${i}`).classList.remove('error');
+                        document.getElementById(`cableAdicionalUtp${i}1`).classList.remove('error');
+                        document.getElementById(`cableAdicionalUtp${i}2`).classList.remove('error');
+                        document.getElementById(`grapas${i}`).classList.remove('error');
 
-                if (!atiende || !operador) {
-                    isValid = false;
-                    if (!atiende) document.getElementById('atiende').classList.add('error');
-                    if (!operador) document.getElementById('operador').classList.add('error');
-                } else {
-                    document.getElementById('atiende').classList.remove('error');
-                    document.getElementById('operador').classList.remove('error');
-
-                    template += `ATIENDE: ${atiende}, OPERADOR: ${operador}, Servicio operativo en equipos del cliente, navegación en niveles correctos.`;
+                        template += `MATERIAL PUNTO CABLEADO ${i}, Cable UTP Cat5e: ${cableUtp} (metros), Conectores RJ45: ${conectoresRj45}, Cable UTP Cat5E Adicional: ${cableAdicionalUtp1} (metros) ${cableAdicionalUtp2}, GRAPAS: ${grapas}. `;
+                    }
                 }
             }
 
