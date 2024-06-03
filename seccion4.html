@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección 4</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --background-color: #f0f0f0;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --error-color: red;
+            --border-color: #cccccc;
+            --input-bg: #f9f9f9;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: var(--background-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: var(--container-bg);
+            box-shadow: 0 0 10px var(--shadow-color);
+            border-radius: 8px;
+            margin: 20px auto;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            flex: 1;
+            min-width: 110px;
+            margin-right: 10px;
+            font-weight: bold;
+            color: var(--text-color);
+            word-wrap: break-word;
+        }
+
+        input,
+        select {
+            flex: 3;
+            padding: 8px;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input.error {
+            border-color: var(--error-color);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            font-size: 1em;
+            color: #ffffff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:first-child {
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.9em;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .copied {
+            display: none;
+            position: absolute;
+            top: -25px;
+            right: 10px;
+            font-size: 0.9em;
+            color: var(--success-color);
+        }
+
+        .copied.show {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .notification.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sección 4</h1>
+        <form id="section4Form">
+            <!-- Add your form fields here -->
+        </form>
+        <div class="buttons">
+            <button type="button" onclick="generateText()">Generar Texto</button>
+            <button type="button" onclick="copyText()">Copiar Texto</button>
+        </div>
+        <div class="output" id="output"></div>
+        <div class="copied" id="copiedMessage">Texto copiado</div>
+        <div class="notification" id="notification">Texto copiado al portapapeles</div>
+    </div>
+
+    <script>
+        function generateText() {
+            // Add your text generation logic here
+            const outputElement = document.getElementById('output');
+            outputElement.innerText = 'Texto generado de la Sección 4';
+        }
+
+        function copyText() {
+            const outputElement = document.getElementById('output');
+            navigator.clipboard.writeText(outputElement.innerText).then(() => {
+                showCopiedMessage();
+                showNotification();
+            }, (err) => {
+                console.error('Error al copiar el texto: ', err);
+            });
+        }
+
+        function showCopiedMessage() {
+            const copiedMessage = document.getElementById('copiedMessage');
+            copiedMessage.classList.add('show');
+            setTimeout(() => {
+                copiedMessage.classList.remove('show');
+            }, 2000);
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
