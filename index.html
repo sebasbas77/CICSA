@@ -4,385 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Texto GPON</title>
+    <title>Secciones de la Página</title>
     <style>
-        :root {
-            --primary-color: #007bff;
-            --primary-hover: #0056b3;
-            --background-color: #f0f0f0;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --error-color: red;
-            --border-color: #cccccc;
-            --input-bg: #f9f9f9;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --success-color: #28a745;
-            --address-color: #777777;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            padding: 0;
             margin: 0;
-            background-color: var(--background-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            padding: 0;
+            background-color: #f0f0f0;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 1200px;
+            margin: auto;
             padding: 20px;
-            background-color: var(--container-bg);
-            box-shadow: 0 0 10px var(--shadow-color);
-            border-radius: 8px;
-            margin: 20px;
-            box-sizing: border-box;
         }
 
-        h1 {
-            text-align: center;
-            font-size: 1.5em;
-            color: var(--text-color);
+        .section {
             margin-bottom: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        label {
-            flex: 1;
-            min-width: 110px;
-            margin-right: 10px;
-            font-weight: bold;
-            color: var(--text-color);
-            word-wrap: break-word;
-        }
-
-        input,
-        textarea {
-            flex: 3;
-            padding: 8px;
-            font-size: 0.9em;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        input.error,
-        textarea.error {
-            border-color: var(--error-color);
-        }
-
-        textarea {
-            resize: vertical;
-            height: 100px;
-            font-family: Arial, sans-serif;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        button {
-            flex: 1;
-            padding: 10px;
-            font-size: 1em;
-            color: #ffffff;
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:first-child {
-            margin-right: 10px;
-        }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .output {
-            margin-top: 20px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            background-color: var(--input-bg);
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #e0e0e0;
-            font-size: 0.9em;
-            color: var(--text-color);
-            position: relative;
-        }
-
-        .copied {
-            display: none;
-            position: absolute;
-            top: -25px;
-            right: 10px;
-            font-size: 0.9em;
-            color: var(--success-color);
-        }
-
-        .copied.show {
-            display: block;
-        }
-
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--success-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none;
+            border-radius: 8px;
         }
 
-        .notification.show {
-            display: block;
-        }
-
-        .address {
-            font-size: 0.8em;
-            color: var(--address-color);
-            margin-top: -10px;
-            margin-left: 120px;
+        iframe {
+            width: 100%;
+            border: none;
+            height: 800px; /* Adjust height as needed */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Generador de Texto GPON</h1>
-        <form id="dataForm">
-            <div class="form-group">
-                <label for="instalacion">INSTALACIÓN GPON</label>
-                <input type="text" id="instalacion">
-            </div>
-            <div class="form-group">
-                <label for="cuadrilla">CUADRILLA</label>
-                <input type="text" id="cuadrilla">
-            </div>
-            <div class="form-group">
-                <label for="potencia">Potencia TX (dBm)</label>
-                <input type="text" id="potencia">
-            </div>
-            <div class="form-group">
-                <label for="cluster">CLÚSTER</label>
-                <input type="text" id="cluster">
-            </div>
-            <div class="form-group">
-                <label for="nap">NAP</label>
-                <input type="text" id="nap">
-            </div>
-            <div class="form-group">
-                <label for="puerto">PUERTO</label>
-                <input type="text" id="puerto">
-            </div>
-            <div class="form-group">
-                <label for="precinto">PRECINTO</label>
-                <input type="text" id="precinto">
-            </div>
-            <div class="form-group">
-                <label for="latitud">LATITUD</label>
-                <input type="text" id="latitud" readonly>
-            </div>
-            <div class="form-group">
-                <label for="longitud">LONGITUD</label>
-                <input type="text" id="longitud" readonly>
-            </div>
-            <div class="address" id="address"></div>
-            <div class="form-group">
-                <label for="serie">SERIE EQUIPO ONT</label>
-                <input type="text" id="serie">
-            </div>
-            <div class="form-group">
-                <label for="metraje1">METRAJE (metros)</label>
-                <input type="text" id="metraje1">
-                <input type="text" id="metraje2" style="margin-left: 10px;">
-            </div>
-            <div class="form-group">
-                <label for="gancho">GANCHO TENSOR</label>
-                <input type="text" id="gancho">
-            </div>
-            <div class="form-group">
-                <label for="grapas">GRAPAS</label>
-                <input type="text" id="grapas">
-            </div>
-            <div class="form-group">
-                <label for="amarras10">AMARRAS 10</label>
-                <input type="text" id="amarras10">
-            </div>
-            <div class="form-group">
-                <label for="amarras20">AMARRAS 20</label>
-                <input type="text" id="amarras20">
-            </div>
-            <div class="form-group">
-                <label for="observacion">OBSERVACIÓN</label>
-                <textarea id="observacion"></textarea>
-            </div>
-            <div class="buttons">
-                <button type="button" onclick="generateText()">Generar Texto</button>
-                <button type="button" onclick="copyText()">Copiar Texto</button>
-            </div>
-        </form>
-        <div class="output" id="output"></div>
-        <div class="copied" id="copiedMessage">Texto copiado</div>
-        <div class="notification" id="notification">Texto copiado al portapapeles</div>
+        <div class="section">
+            <iframe src="seccion1.html"></iframe>
+        </div>
+        <div class="section">
+            <iframe src="seccion2.html"></iframe>
+        </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            getLocation();
-            adjustStyles();
-            window.addEventListener('resize', adjustStyles);
-        });
-
-        function adjustStyles() {
-            const width = window.innerWidth;
-            const root = document.documentElement;
-            if (width <= 600) {
-                root.style.setProperty('--primary-color', '#007bff');
-                root.style.setProperty('--primary-hover', '#0056b3');
-                root.style.setProperty('--background-color', '#f0f0f0');
-                root.style.setProperty('--container-bg', '#ffffff');
-                root.style.setProperty('--text-color', '#333333');
-                root.style.setProperty('--error-color', 'red');
-                root.style.setProperty('--border-color', '#cccccc');
-                root.style.setProperty('--input-bg', '#f9f9f9');
-                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
-                root.style.setProperty('--success-color', '#28a745');
-            } else {
-                root.style.setProperty('--primary-color', '#007bff');
-                root.style.setProperty('--primary-hover', '#0056b3');
-                root.style.setProperty('--background-color', '#f0f0f0');
-                root.style.setProperty('--container-bg', '#ffffff');
-                root.style.setProperty('--text-color', '#333333');
-                root.style.setProperty('--error-color', 'red');
-                root.style.setProperty('--border-color', '#cccccc');
-                root.style.setProperty('--input-bg', '#f9f9f9');
-                root.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
-                root.style.setProperty('--success-color', '#28a745');
-            }
-        }
-
-        function generateText() {
-            const fields = [
-                'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
-                'puerto', 'precinto', 'latitud', 'longitud', 'serie',
-                'metraje1', 'metraje2', 'gancho', 'grapas', 'amarras10', 'amarras20'
-            ];
-            let isValid = true;
-
-            fields.forEach(field => {
-                const inputElement = document.getElementById(field);
-                if (!inputElement.value.trim()) {
-                    inputElement.classList.add('error');
-                    isValid = false;
-                } else {
-                    inputElement.classList.remove('error');
-                }
-            });
-
-            if (!isValid) {
-                return;
-            }
-
-            const data = fields.reduce((acc, field) => {
-                acc[field] = document.getElementById(field).value.trim();
-                return acc;
-            }, {});
-
-            let template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
-
-            const observacion = document.getElementById('observacion').value.trim();
-            if (observacion) {
-                template += `\n\n${observacion}`;
-            }
-
-            document.getElementById('output').innerText = template;
-        }
-
-        function copyText() {
-            const outputElement = document.getElementById('output');
-            navigator.clipboard.writeText(outputElement.innerText).then(() => {
-                showCopiedMessage();
-                showNotification();
-            }, (err) => {
-                console.error('Error al copiar el texto: ', err);
-            });
-        }
-
-        function showCopiedMessage() {
-            const copiedMessage = document.getElementById('copiedMessage');
-            copiedMessage.classList.add('show');
-            setTimeout(() => {
-                copiedMessage.classList.remove('show');
-            }, 2000);
-        }
-
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2000);
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("La geolocalización no es soportada por este navegador.");
-            }
-        }
-
-        function showPosition(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('latitud').value = lat;
-            document.getElementById('longitud').value = lon;
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                .then(response => response.json())
-                .then(data => {
-                    const address = data.display_name;
-                    document.getElementById('address').innerText = `Dirección: ${address}`;
-                })
-                .catch(error => console.error('Error al obtener la dirección:', error));
-        }
-
-        function showError(error) {
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    alert("El usuario negó la solicitud de geolocalización.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert("La información de ubicación no está disponible.");
-                    break;
-                case error.TIMEOUT:
-                    alert("La solicitud para obtener la ubicación ha caducado.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert("Se ha producido un error desconocido.");
-                    break;
-            }
-        }
-    </script>
 </body>
 
 </html>
+
