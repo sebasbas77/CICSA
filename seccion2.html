@@ -268,7 +268,7 @@
                         document.getElementById(`datoGrapas${i}`).classList.remove('error');
                         document.getElementById(`datoControles${i}`).classList.remove('error');
 
-                        template += `${decodificador} DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}, ${materialTv} MATERIAL TV, ${datoUtp} UTP, ${datoRj45} RJ45, ${datoGrapas} GRAPAS, ${datoControles} CONTROLES, `;
+                        template += `DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}: ${decodificador}, MATERIAL TV, ${datoUtp} UTP, ${datoRj45} RJ45, ${datoGrapas} GRAPAS, ${datoControles} CONTROLES, `;
                     }
                 }
 
