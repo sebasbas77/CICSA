@@ -151,7 +151,17 @@
     <div class="container">
         <h1>Sección 4</h1>
         <form id="section4Form">
-            <!-- Add your form fields here -->
+            <div class="form-group">
+                <label for="numWifiMesh">NUM WIFI MESH</label>
+                <select id="numWifiMesh" onchange="generateFields()">
+                    <option value="0">no incluye</option>
+                    <option value="1">1 nodo</option>
+                    <option value="2">2 nodos</option>
+                    <option value="3">3 nodos</option>
+                    <option value="4">4 nodos</option>
+                </select>
+            </div>
+            <div id="wifiMeshFields"></div>
         </form>
         <div class="buttons">
             <button type="button" onclick="generateText()">Generar Texto</button>
@@ -163,10 +173,88 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            generateFields(); // Generate fields for the default selection on load
+        });
+
+        function generateFields() {
+            const numWifiMesh = document.getElementById('numWifiMesh').value;
+            const wifiMeshFields = document.getElementById('wifiMeshFields');
+            wifiMeshFields.innerHTML = '';
+
+            if (numWifiMesh > 0) {
+                for (let i = 1; i <= numWifiMesh; i++) {
+                    wifiMeshFields.innerHTML += `
+                        <div class="form-group">
+                            <label for="marca${i}">MARCA</label>
+                            <input type="text" id="marca${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo${i}">MODELO</label>
+                            <input type="text" id="modelo${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="sn${i}">S/N</label>
+                            <input type="text" id="sn${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="utp${i}">UTP</label>
+                            <input type="text" id="utp${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="rj45${i}">RJ45</label>
+                            <input type="text" id="rj45${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="grapas${i}">GRAPAS</label>
+                            <input type="text" id="grapas${i}">
+                        </div>
+                    `;
+                }
+            }
+        }
+
         function generateText() {
-            // Add your text generation logic here
-            const outputElement = document.getElementById('output');
-            outputElement.innerText = 'Texto generado de la Sección 4';
+            const numWifiMesh = document.getElementById('numWifiMesh').value;
+            let template = '';
+            let isValid = true;
+
+            if (numWifiMesh == 0) {
+                template = ''; // No incluye, no se genera texto.
+            } else {
+                template += 'WIFI MESH.\n\n';
+                for (let i = 1; i <= numWifiMesh; i++) {
+                    const marca = document.getElementById(`marca${i}`).value.trim();
+                    const modelo = document.getElementById(`modelo${i}`).value.trim();
+                    const sn = document.getElementById(`sn${i}`).value.trim();
+                    const utp = document.getElementById(`utp${i}`).value.trim();
+                    const rj45 = document.getElementById(`rj45${i}`).value.trim();
+                    const grapas = document.getElementById(`grapas${i}`).value.trim();
+
+                    if (!marca || !modelo || !sn || !utp || !rj45 || !grapas) {
+                        isValid = false;
+                        if (!marca) document.getElementById(`marca${i}`).classList.add('error');
+                        if (!modelo) document.getElementById(`modelo${i}`).classList.add('error');
+                        if (!sn) document.getElementById(`sn${i}`).classList.add('error');
+                        if (!utp) document.getElementById(`utp${i}`).classList.add('error');
+                        if (!rj45) document.getElementById(`rj45${i}`).classList.add('error');
+                        if (!grapas) document.getElementById(`grapas${i}`).classList.add('error');
+                    } else {
+                        document.getElementById(`marca${i}`).classList.remove('error');
+                        document.getElementById(`modelo${i}`).classList.remove('error');
+                        document.getElementById(`sn${i}`).classList.remove('error');
+                        document.getElementById(`utp${i}`).classList.remove('error');
+                        document.getElementById(`rj45${i}`).classList.remove('error');
+                        document.getElementById(`grapas${i}`).classList.remove('error');
+
+                        template += `MARCA: ${marca}.\nMODELO: ${modelo}.\nS/N: ${sn}.\n${utp} UTP, ${rj45} RJ45, ${grapas} GRAPAS.\n\n`;
+                    }
+                }
+            }
+
+            if (isValid) {
+                document.getElementById('output').innerText = template;
+            }
         }
 
         function copyText() {
