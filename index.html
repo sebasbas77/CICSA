@@ -31,7 +31,6 @@
         iframe {
             width: 100%;
             border: none;
-            height: 500px; /* Adjust height as needed */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -41,16 +40,25 @@
 <body>
     <div class="container">
         <div class="section">
-            <iframe src="seccion1.html"></iframe>
+            <iframe src="seccion1.html" id="iframe1" onload="resizeIframe(this)"></iframe>
         </div>
         <div class="section">
-            <iframe src="seccion2.html"></iframe>
+            <iframe src="seccion2.html" id="iframe2" onload="resizeIframe(this)"></iframe>
         </div>
         <div class="section">
-            <iframe src="seccion3.html"></iframe>
+            <iframe src="seccion3.html" id="iframe3" onload="resizeIframe(this)"></iframe>
         </div>
     </div>
+
+    <script>
+        function resizeIframe(iframe) {
+            iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+        }
+
+        window.addEventListener('resize', function() {
+            document.querySelectorAll('iframe').forEach(iframe => resizeIframe(iframe));
+        });
+    </script>
 </body>
 
 </html>
-
