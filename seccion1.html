@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Texto GPON</title>
+    <title>OBSERVACIÓN GPON</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -62,7 +62,8 @@
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             flex: 3;
             padding: 8px;
             font-size: 0.9em;
@@ -158,70 +159,80 @@
 
 <body>
     <div class="container">
-        <h1>Generador de Texto GPON</h1>
+        <h1>OBSERVACIÓN GPON</h1>
         <form id="dataForm">
             <div class="form-group">
                 <label for="instalacion">INSTALACIÓN GPON</label>
-                <input type="text" id="instalacion">
+                <input type="text" id="instalacion" placeholder="N. Orden">
             </div>
             <div class="form-group">
                 <label for="cuadrilla">CUADRILLA</label>
-                <input type="text" id="cuadrilla">
+                <input type="text" id="cuadrilla" placeholder=" ">
             </div>
             <div class="form-group">
                 <label for="potencia">Potencia TX (dBm)</label>
-                <input type="text" id="potencia">
+                <input type="text" id="potencia" placeholder="entre -8 a -23">
             </div>
             <div class="form-group">
                 <label for="cluster">CLÚSTER</label>
-                <input type="text" id="cluster">
+                <input type="text" id="cluster" placeholder="ID">
             </div>
             <div class="form-group">
                 <label for="nap">NAP</label>
-                <input type="text" id="nap">
+                <input type="text" id="nap" placeholder="ID">
             </div>
             <div class="form-group">
                 <label for="puerto">PUERTO</label>
-                <input type="text" id="puerto">
+                <input type="text" id="puerto" placeholder="Número">
             </div>
             <div class="form-group">
                 <label for="precinto">PRECINTO</label>
-                <input type="text" id="precinto">
+                <input type="text" id="precinto" placeholder="Número">
             </div>
             <div class="form-group">
                 <label for="latitud">LATITUD</label>
-                <input type="text" id="latitud" readonly>
+                <input type="text" id="latitud" readonly placeholder="Latitud">
             </div>
             <div class="form-group">
                 <label for="longitud">LONGITUD</label>
-                <input type="text" id="longitud" readonly>
+                <input type="text" id="longitud" readonly placeholder="Longitud">
             </div>
             <div class="address" id="address"></div>
             <div class="form-group">
                 <label for="serie">SERIE EQUIPO ONT</label>
-                <input type="text" id="serie">
+                <input type="text" id="serie" placeholder="Serial">
             </div>
             <div class="form-group">
                 <label for="metraje1">METRAJE (metros)</label>
-                <input type="text" id="metraje1">
-                <input type="text" id="metraje2" style="margin-left: 10px;">
+                <input type="text" id="metraje1" placeholder="Metros">
+                <input type="text" id="metraje2" style="margin-left: 10px;" placeholder="ZTE o HUAWEI">
             </div>
             <div class="form-group">
                 <label for="gancho">GANCHO TENSOR</label>
-                <input type="text" id="gancho">
+                <input type="text" id="gancho" placeholder="Virola">
             </div>
             <div class="form-group">
                 <label for="grapas">GRAPAS</label>
-                <input type="text" id="grapas">
+                <input type="text" id="grapas" placeholder="Cuadradas">
             </div>
             <div class="form-group">
                 <label for="amarras10">AMARRAS 10</label>
-                <input type="text" id="amarras10">
+                <input type="text" id="amarras10" placeholder="Unidades">
             </div>
             <div class="form-group">
                 <label for="amarras20">AMARRAS 20</label>
-                <input type="text" id="amarras20">
+                <input type="text" id="amarras20" placeholder="Unidades">
             </div>
+            <div class="form-group">
+                <label for="numIptv">Número IPTV</label>
+                <select id="numIptv" onchange="generateIptvFields()">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div id="iptvFields"></div>
             <div class="buttons">
                 <button type="button" onclick="generateText()">Generar Texto</button>
                 <button type="button" onclick="copyText()">Copiar Texto</button>
@@ -237,6 +248,7 @@
             getLocation();
             adjustStyles();
             window.addEventListener('resize', adjustStyles);
+            generateIptvFields(); // Generate fields for the default selection on load
         });
 
         function adjustStyles() {
@@ -267,6 +279,63 @@
             }
         }
 
+        function generateIptvFields() {
+            const numIptv = document.getElementById('numIptv').value;
+            const iptvFields = document.getElementById('iptvFields');
+            iptvFields.innerHTML = '';
+
+            if (numIptv == 0) {
+                iptvFields.innerHTML += `
+                    <div class="form-group">
+                        <label for="atiende">ATIENDE</label>
+                        <input type="text" id="atiende" placeholder="Nombre y apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="operador">OPERADOR</label>
+                        <input type="text" id="operador" placeholder="Nombre y apellido">
+                    </div>
+                `;
+            } else {
+                for (let i = 0; i < numIptv; i++) {
+                    iptvFields.innerHTML += `
+                        <div class="form-group">
+                            <label for="decodificador${i}">DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}</label>
+                            <input type="text" id="decodificador${i}" placeholder="Ingrese el decodificador ${i === 0 ? 'principal' : `adicional ${i}`}">
+                        </div>
+                        <div class="form-group">
+                            <label>MATERIAL TV</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="datoUtp${i}">UTP</label>
+                            <input type="text" id="datoUtp${i}" placeholder="Metros">
+                        </div>
+                        <div class="form-group">
+                            <label for="datoRj45${i}">RJ45</label>
+                            <input type="text" id="datoRj45${i}" placeholder="Unidades">
+                        </div>
+                        <div class="form-group">
+                            <label for="datoGrapas${i}">GRAPAS</label>
+                            <input type="text" id="datoGrapas${i}" placeholder="Cuadradas">
+                        </div>
+                        <div class="form-group">
+                            <label for="datoControles${i}">CONTROLES</label>
+                            <input type="text" id="datoControles${i}" placeholder="Unidades">
+                        </div>
+                    `;
+                }
+                iptvFields.innerHTML += `
+                    <div class="form-group">
+                        <label for="atiende">ATIENDE</label>
+                        <input type="text" id="atiende" placeholder="Nombre y apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="operador">OPERADOR</label>
+                        <input type="text" id="operador" placeholder="Nombre y apellido">
+                    </div>
+                `;
+            }
+        }
+
         function generateText() {
             const fields = [
                 'instalacion', 'cuadrilla', 'potencia', 'cluster', 'nap',
@@ -285,6 +354,55 @@
                 }
             });
 
+            const numIptv = document.getElementById('numIptv').value;
+            if (numIptv == 0) {
+                const atiende = document.getElementById('atiende').value.trim();
+                const operador = document.getElementById('operador').value.trim();
+
+                if (!atiende || !operador) {
+                    isValid = false;
+                    if (!atiende) document.getElementById('atiende').classList.add('error');
+                    if (!operador) document.getElementById('operador').classList.add('error');
+                } else {
+                    document.getElementById('atiende').classList.remove('error');
+                    document.getElementById('operador').classList.remove('error');
+                }
+            } else {
+                for (let i = 0; i < numIptv; i++) {
+                    const decodificador = document.getElementById(`decodificador${i}`).value.trim();
+                    const datoUtp = document.getElementById(`datoUtp${i}`).value.trim();
+                    const datoRj45 = document.getElementById(`datoRj45${i}`).value.trim();
+                    const datoGrapas = document.getElementById(`datoGrapas${i}`).value.trim();
+                    const datoControles = document.getElementById(`datoControles${i}`).value.trim();
+
+                    if (!decodificador || !datoUtp || !datoRj45 || !datoGrapas || !datoControles) {
+                        isValid = false;
+                        if (!decodificador) document.getElementById(`decodificador${i}`).classList.add('error');
+                        if (!datoUtp) document.getElementById(`datoUtp${i}`).classList.add('error');
+                        if (!datoRj45) document.getElementById(`datoRj45${i}`).classList.add('error');
+                        if (!datoGrapas) document.getElementById(`datoGrapas${i}`).classList.add('error');
+                        if (!datoControles) document.getElementById(`datoControles${i}`).classList.add('error');
+                    } else {
+                        document.getElementById(`decodificador${i}`).classList.remove('error');
+                        document.getElementById(`datoUtp${i}`).classList.remove('error');
+                        document.getElementById(`datoRj45${i}`).classList.remove('error');
+                        document.getElementById(`datoGrapas${i}`).classList.remove('error');
+                        document.getElementById(`datoControles${i}`).classList.remove('error');
+                    }
+                }
+                const atiende = document.getElementById('atiende').value.trim();
+                const operador = document.getElementById('operador').value.trim();
+
+                if (!atiende || !operador) {
+                    isValid = false;
+                    if (!atiende) document.getElementById('atiende').classList.add('error');
+                    if (!operador) document.getElementById('operador').classList.add('error');
+                } else {
+                    document.getElementById('atiende').classList.remove('error');
+                    document.getElementById('operador').classList.remove('error');
+                }
+            }
+
             if (!isValid) {
                 return;
             }
@@ -295,6 +413,15 @@
             }, {});
 
             let template = `INSTALACIÓN GPON: ${data.instalacion}, CUADRILLA: ${data.cuadrilla}, Potencia en niveles óptimos Potencia TX: ${data.potencia} dBm, CLÚSTER: ${data.cluster}, NAP: ${data.nap}, PUERTO: ${data.puerto}, PRECINTO: ${data.precinto}, LATITUD: ${data.latitud}, LONGITUD: ${data.longitud}, SERIE EQUIPO ONT: ${data.serie}, METRAJE: ${data.metraje1} (metros) ${data.metraje2}, GANCHO TENSOR: ${data.gancho}, GRAPAS: ${data.grapas}, AMARRAS 10: ${data.amarras10}, AMARRAS 20: ${data.amarras20}.`;
+
+            if (numIptv == 0) {
+                template += ` ATIENDE: ${document.getElementById('atiende').value.trim()}, OPERADOR: ${document.getElementById('operador').value.trim()}, Servicio operativo en equipos del cliente, navegación en niveles correctos.`;
+            } else {
+                for (let i = 0; i < numIptv; i++) {
+                    template += ` DECODIFICADOR ${i === 0 ? 'PRINCIPAL' : `ADICIONAL ${i}`}: ${document.getElementById(`decodificador${i}`).value.trim()}, MATERIAL TV, ${document.getElementById(`datoUtp${i}`).value.trim()} UTP, ${document.getElementById(`datoRj45${i}`).value.trim()} RJ45, ${document.getElementById(`datoGrapas${i}`).value.trim()} GRAPAS, ${document.getElementById(`datoControles${i}`).value.trim()} CONTROLES, `;
+                }
+                template += `ATIENDE: ${document.getElementById('atiende').value.trim()}, OPERADOR: ${document.getElementById('operador').value.trim()}, Servicio operativo en equipos del cliente, navegación en niveles correctos.`;
+            }
 
             document.getElementById('output').innerText = template;
         }
@@ -367,3 +494,4 @@
 </body>
 
 </html>
+
