@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección 3</title>
+    <title>Sección 4</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -149,17 +149,19 @@
 
 <body>
     <div class="container">
-        <h1>Sección 3</h1>
-        <form id="section3Form">
+        <h1>Sección 4</h1>
+        <form id="section4Form">
             <div class="form-group">
-                <label for="numPuntos">NUM PUNTOS CABLEADOS</label>
-                <select id="numPuntos" onchange="generateFields()">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
+                <label for="numWifiMesh">NUM WIFI MESH</label>
+                <select id="numWifiMesh" onchange="generateFields()">
+                    <option value="0">no incluye</option>
+                    <option value="1">1 nodo</option>
+                    <option value="2">2 nodos</option>
+                    <option value="3">3 nodos</option>
+                    <option value="4">4 nodos</option>
                 </select>
             </div>
-            <div id="puntosFields"></div>
+            <div id="wifiMeshFields"></div>
         </form>
         <div class="buttons">
             <button type="button" onclick="generateText()">Generar Texto</button>
@@ -176,104 +178,76 @@
         });
 
         function generateFields() {
-            const numPuntos = document.getElementById('numPuntos').value;
-            const puntosFields = document.getElementById('puntosFields');
-            puntosFields.innerHTML = '';
+            const numWifiMesh = document.getElementById('numWifiMesh').value;
+            const wifiMeshFields = document.getElementById('wifiMeshFields');
+            wifiMeshFields.innerHTML = '';
 
-            if (numPuntos == 0) {
-                puntosFields.innerHTML += `
-                    <div class="form-group">
-                        <label for="opcion0">Opción</label>
-                        <select id="opcion0" onchange="toggleReasonField()">
-                            <option value="1">NO INCLUYE</option>
-                            <option value="2">CLIENTE NO DESEA PUNTOS CABLEADOS</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="reasonField" style="display: none;">
-                        <label for="razon">Razón</label>
-                        <input type="text" id="razon">
-                    </div>
-                `;
-            } else {
-                for (let i = 1; i <= numPuntos; i++) {
-                    puntosFields.innerHTML += `
+            if (numWifiMesh > 0) {
+                for (let i = 1; i <= numWifiMesh; i++) {
+                    wifiMeshFields.innerHTML += `
                         <div class="form-group">
-                            <label>MATERIAL PUNTO CABLEADO ${i}</label>
+                            <label for="marca${i}">MARCA</label>
+                            <input type="text" id="marca${i}">
                         </div>
                         <div class="form-group">
-                            <label for="cableUtp${i}">Cable UTP Cat5e (metros)</label>
-                            <input type="text" id="cableUtp${i}" placeholder="">
+                            <label for="modelo${i}">MODELO</label>
+                            <input type="text" id="modelo${i}">
                         </div>
                         <div class="form-group">
-                            <label for="conectoresRj45${i}">Conectores RJ45</label>
-                            <input type="text" id="conectoresRj45${i}" placeholder="">
+                            <label for="sn${i}">S/N</label>
+                            <input type="text" id="sn${i}">
                         </div>
                         <div class="form-group">
-                            <label for="cableAdicionalUtp${i}">Cable UTP Cat5E Adicional (metros)</label>
-                            <input type="text" id="cableAdicionalUtp${i}1" placeholder="metros">
-                            <input type="text" id="cableAdicionalUtp${i}2" placeholder="ubicación">
+                            <label for="utp${i}">UTP</label>
+                            <input type="text" id="utp${i}">
+                        </div>
+                        <div class="form-group">
+                            <label for="rj45${i}">RJ45</label>
+                            <input type="text" id="rj45${i}">
                         </div>
                         <div class="form-group">
                             <label for="grapas${i}">GRAPAS</label>
-                            <input type="text" id="grapas${i}" placeholder="">
+                            <input type="text" id="grapas${i}">
                         </div>
                     `;
                 }
             }
         }
 
-        function toggleReasonField() {
-            const opcion = document.getElementById('opcion0').value;
-            const reasonField = document.getElementById('reasonField');
-            if (opcion == 2) {
-                reasonField.style.display = 'flex';
-            } else {
-                reasonField.style.display = 'none';
-            }
-        }
-
         function generateText() {
-            const numPuntos = document.getElementById('numPuntos').value;
+            const numWifiMesh = document.getElementById('numWifiMesh').value;
             let template = '';
             let isValid = true;
 
-            if (numPuntos == 0) {
-                const opcion0 = document.getElementById('opcion0').value;
-                if (opcion0 == 1) {
-                    template = 'NO INCLUYE';
-                } else if (opcion0 == 2) {
-                    const razon = document.getElementById('razon').value.trim();
-                    if (!razon) {
-                        isValid = false;
-                        document.getElementById('razon').classList.add('error');
-                    } else {
-                        document.getElementById('razon').classList.remove('error');
-                        template = `Cliente no desea puntos cableados, ${razon}`;
-                    }
-                }
+            if (numWifiMesh == 0) {
+                template = ''; // No incluye, no se genera texto.
             } else {
-                for (let i = 1; i <= numPuntos; i++) {
-                    const cableUtp = document.getElementById(`cableUtp${i}`).value.trim();
-                    const conectoresRj45 = document.getElementById(`conectoresRj45${i}`).value.trim();
-                    const cableAdicionalUtp1 = document.getElementById(`cableAdicionalUtp${i}1`).value.trim();
-                    const cableAdicionalUtp2 = document.getElementById(`cableAdicionalUtp${i}2`).value.trim();
+                template += 'WIFI MESH.\n\n';
+                for (let i = 1; i <= numWifiMesh; i++) {
+                    const marca = document.getElementById(`marca${i}`).value.trim();
+                    const modelo = document.getElementById(`modelo${i}`).value.trim();
+                    const sn = document.getElementById(`sn${i}`).value.trim();
+                    const utp = document.getElementById(`utp${i}`).value.trim();
+                    const rj45 = document.getElementById(`rj45${i}`).value.trim();
                     const grapas = document.getElementById(`grapas${i}`).value.trim();
 
-                    if (!cableUtp || !conectoresRj45 || !cableAdicionalUtp1 || !cableAdicionalUtp2 || !grapas) {
+                    if (!marca || !modelo || !sn || !utp || !rj45 || !grapas) {
                         isValid = false;
-                        if (!cableUtp) document.getElementById(`cableUtp${i}`).classList.add('error');
-                        if (!conectoresRj45) document.getElementById(`conectoresRj45${i}`).classList.add('error');
-                        if (!cableAdicionalUtp1) document.getElementById(`cableAdicionalUtp${i}1`).classList.add('error');
-                        if (!cableAdicionalUtp2) document.getElementById(`cableAdicionalUtp${i}2`).classList.add('error');
+                        if (!marca) document.getElementById(`marca${i}`).classList.add('error');
+                        if (!modelo) document.getElementById(`modelo${i}`).classList.add('error');
+                        if (!sn) document.getElementById(`sn${i}`).classList.add('error');
+                        if (!utp) document.getElementById(`utp${i}`).classList.add('error');
+                        if (!rj45) document.getElementById(`rj45${i}`).classList.add('error');
                         if (!grapas) document.getElementById(`grapas${i}`).classList.add('error');
                     } else {
-                        document.getElementById(`cableUtp${i}`).classList.remove('error');
-                        document.getElementById(`conectoresRj45${i}`).classList.remove('error');
-                        document.getElementById(`cableAdicionalUtp${i}1`).classList.remove('error');
-                        document.getElementById(`cableAdicionalUtp${i}2`).classList.remove('error');
+                        document.getElementById(`marca${i}`).classList.remove('error');
+                        document.getElementById(`modelo${i}`).classList.remove('error');
+                        document.getElementById(`sn${i}`).classList.remove('error');
+                        document.getElementById(`utp${i}`).classList.remove('error');
+                        document.getElementById(`rj45${i}`).classList.remove('error');
                         document.getElementById(`grapas${i}`).classList.remove('error');
 
-                        template += `MATERIAL PUNTO CABLEADO ${i}, Cable UTP Cat5e: ${cableUtp} (metros), Conectores RJ45: ${conectoresRj45}, Cable UTP Cat5E Adicional: ${cableAdicionalUtp1} (metros) ${cableAdicionalUtp2}, GRAPAS: ${grapas}. `;
+                        template += `MARCA: ${marca}.\nMODELO: ${modelo}.\nS/N: ${sn}.\n${utp} UTP, ${rj45} RJ45, ${grapas} GRAPAS.\n\n`;
                     }
                 }
             }
@@ -312,3 +286,4 @@
 </body>
 
 </html>
+
