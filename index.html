@@ -31,9 +31,9 @@
         iframe {
             width: 100%;
             border: none;
-            height: 800px; /* Adjust height as needed */
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: height 0.3s ease; /* Smooth transition for height changes */
         }
     </style>
 </head>
@@ -41,19 +41,24 @@
 <body>
     <div class="container">
         <div class="section">
-            <iframe src="seccion1.html"></iframe>
+            <iframe src="seccion1.html" id="seccion1" onload="resizeIframe(this)"></iframe>
         </div>
         <div class="section">
-            <iframe src="seccion2.html"></iframe>
+            <iframe src="seccion2.html" id="seccion2" onload="resizeIframe(this)"></iframe>
         </div>
         <div class="section">
-            <iframe src="seccion3.html"></iframe>
+            <iframe src="seccion3.html" id="seccion3" onload="resizeIframe(this)"></iframe>
         </div>
         <div class="section">
-            <iframe src="seccion4.html"></iframe>
+            <iframe src="seccion4.html" id="seccion4" onload="resizeIframe(this)"></iframe>
         </div>
     </div>
+
+    <script>
+        function resizeIframe(iframe) {
+            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+    </script>
 </body>
 
 </html>
-
