@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección 4</title>
+    <title>WIFI MESH GPON</title>
     <style>
         :root {
             --primary-color: #007bff;
@@ -149,7 +149,7 @@
 
 <body>
     <div class="container">
-        <h1>Sección 4</h1>
+        <h1>WIFI MESH GPON</h1>
         <form id="section4Form">
             <div class="form-group">
                 <label for="numWifiMesh">NUM WIFI MESH</label>
@@ -187,27 +187,27 @@
                     wifiMeshFields.innerHTML += `
                         <div class="form-group">
                             <label for="marca${i}">MARCA</label>
-                            <input type="text" id="marca${i}">
+                            <input type="text" id="marca${i}" placeholder=" ">
                         </div>
                         <div class="form-group">
                             <label for="modelo${i}">MODELO</label>
-                            <input type="text" id="modelo${i}">
+                            <input type="text" id="modelo${i}" placeholder=" ">
                         </div>
                         <div class="form-group">
                             <label for="sn${i}">S/N</label>
-                            <input type="text" id="sn${i}">
+                            <input type="text" id="sn${i}" placeholder="Serial">
                         </div>
                         <div class="form-group">
                             <label for="utp${i}">UTP</label>
-                            <input type="text" id="utp${i}">
+                            <input type="text" id="utp${i}" placeholder="Metros">
                         </div>
                         <div class="form-group">
                             <label for="rj45${i}">RJ45</label>
-                            <input type="text" id="rj45${i}">
+                            <input type="text" id="rj45${i}" placeholder="Unidades">
                         </div>
                         <div class="form-group">
                             <label for="grapas${i}">GRAPAS</label>
-                            <input type="text" id="grapas${i}">
+                            <input type="text" id="grapas${i}" placeholder="Cuadras blancas">
                         </div>
                     `;
                 }
@@ -222,7 +222,7 @@
             if (numWifiMesh == 0) {
                 template = ''; // No incluye, no se genera texto.
             } else {
-                template += 'WIFI MESH.\n\n';
+                template += 'WIFI MESH GPON.\n\n';
                 for (let i = 1; i <= numWifiMesh; i++) {
                     const marca = document.getElementById(`marca${i}`).value.trim();
                     const modelo = document.getElementById(`modelo${i}`).value.trim();
